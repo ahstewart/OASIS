@@ -1,0 +1,402 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>How It Works &mdash; OasisPy 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorial" href="tutorial.html" />
+    <link rel="prev" title="Getting Started" href="gettingstarted.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> OasisPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installing <strong>OasisPy</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How It Works</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overviw-of-the-software">Overviw of the Software</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#oasis-environment"><strong>OASIS</strong> Environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-difference-imaging-process">The Difference Imaging Process</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-oasis-pipeline">The <strong>OASIS Pipeline</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#acquire-data">Acquire Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#masking">Masking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#psf-modeling">PSF Modeling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#image-rejection">Image Rejection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#registration">Registration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#template-construction">Template Construction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#subtraction">Subtraction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#step-one">Step One</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-two">Step Two</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#residual-quality">Residual Quality</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#source-extraction">Source Extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simulations">Simulations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mosaicking">Mosaicking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#testing">Testing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OasisPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>How It Works</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/howitworks.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="how-it-works">
+<h1>How It Works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h1>
+<p>Here we describe the inner-workings of the <strong>OASIS</strong> engine.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This section is dedicated to showing the algorithms and theory behind <strong>OASIS</strong>. For a thorough step-by-step introduction to using <strong>OasisPy</strong> to process real images, see <em>this Jupyter notebook</em>.</p>
+</div>
+<div class="section" id="overviw-of-the-software">
+<h2>Overviw of the Software<a class="headerlink" href="#overviw-of-the-software" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="oasis-environment">
+<h3><strong>OASIS</strong> Environment<a class="headerlink" href="#oasis-environment" title="Permalink to this headline">¶</a></h3>
+<p>All of the <strong>OASIS</strong> image processing takes place in the <strong>OASIS</strong> environment, a file tree with containers that drive the <strong>OASIS</strong> engine. This set of directories is created automatically during install in the user-specified location, with the root directory being named <strong>OASIS</strong>. Shown below is a schematic of the file tree.</p>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="_images/OASIS_filetree.jpg"><img alt="_images/OASIS_filetree.jpg" src="_images/OASIS_filetree.jpg" style="height: 650px;" /></a>
+<p class="caption"><span class="caption-text">Click image to enlarge.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Once the <strong>OASIS</strong> file tree is created, DO NOT move or delete any of the three main directories. Manipulating these master directories will result in runtime errors.</p>
+</div>
+</div>
+<div class="section" id="the-difference-imaging-process">
+<h3>The Difference Imaging Process<a class="headerlink" href="#the-difference-imaging-process" title="Permalink to this headline">¶</a></h3>
+<p>Difference imaging is a photometric techinque in which a high signal-to-noise “template” image is subtracted from some real “science” frame to reveal residual sources of flux indicative of variable stars, exoplanet transits, supernovae, etc.</p>
+<p>In order to do this successfully, there are a number of image processing steps that need to be done to both the science and template images in order to guarantee an acceptable residual. This is the achille’s heel of difference imaging. When the images are prepared correctly, the techinque can be extremely powerful and efficient. When the pre-subtraction steps are done incorrectly, the technique can produce residuals riddled with false sources and messy flux distributions. Thus it is crucial that all steps in the difference imaging process are robust enough to work reliably with any type of astronomical CCD image. This is the main problem <strong>OASIS</strong> has attempted to solve.</p>
+<p>The following sections will describe each of the aforementioned steps one must complete in order to difference two astronomical images. Below is a rough schematic of the <strong>OASIS Pipeline</strong> and its execution order.</p>
+<div class="figure align-center" id="id2">
+<img alt="_images/OASIS_schematic_2019.jpg" src="_images/OASIS_schematic_2019.jpg" />
+<p class="caption"><span class="caption-text">Note that your “Pre-Processing” section may be different depending where you get your data from. The example above assumes the user has         fetched data from the Las Cumbres Observatory online archive (<a class="reference external" href="https://archive.lco.global/?q=a&amp;RLEVEL=&amp;PROPID=&amp;INSTRUME=&amp;OBJECT=&amp;SITEID=&amp;TELID=&amp;FILTER=&amp;OBSTYPE=&amp;EXPTIME=&amp;BLKUID=&amp;REQNUM=&amp;basename=&amp;start=2019-06-01%2000%3A00&amp;end=2019-11-30%2023%3A59&amp;id=&amp;public=true">LCO data archive</a>).</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt>A quick word about the language used in the following sections. There are numerous terms that appear often when discussing difference imaging           who’s meaning in this context may differ from the more commonly known definition.</dt><dd><ul class="simple">
+<li><p><strong>Science image</strong>- All images in the data set. The science images contain the objects being sought.</p></li>
+<li><p><strong>Template image</strong>- An image made by either stacking numerous science images or choosing a specific science image. This template is subtracted from each science image to look for variable objects.</p></li>
+<li><p><strong>Residual image</strong>- The resulting image after the <span class="math notranslate nohighlight">\(Science - Template\)</span> subtraction. The residual is a FITS image with identical dimensions, pixel scale, etc. to the original science images.</p></li>
+<li><p><strong>Source/Detection</strong>- These terms refer to groups of adjacent pixels of high flux in the residual image that are indicative of some variable or transient object.</p></li>
+<li><p><strong>Subtraction artifact/false positive</strong>- Detections that are the result of poor difference imaging or defects/noise unaccounted for during the calibration  steps. Minimization of these artifacts is one of the foremost problems in difference imaging.</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="the-oasis-pipeline">
+<h2>The <strong>OASIS Pipeline</strong><a class="headerlink" href="#the-oasis-pipeline" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="acquire-data">
+<h3>Acquire Data<a class="headerlink" href="#acquire-data" title="Permalink to this headline">¶</a></h3>
+<p>Before getting into the image processing, <strong>OASIS</strong> must first have images to process. <strong>OasisPy</strong> supports two data acquistion methods. The user can manually download their data from some repository and simply tell <strong>OasisPy</strong> where they’re located on their local machine, or they can use the built-in <code class="docutils literal notranslate"><span class="pre">get</span></code> function to download images from Las Cumbres Observatory’s (LCO) data archive. Of course, the second option is only useful if you are a LCO client or have a desire to analyze their publically available images</p>
+</div>
+<div class="section" id="masking">
+<h3>Masking<a class="headerlink" href="#masking" title="Permalink to this headline">¶</a></h3>
+<p>The first thing <strong>OASIS</strong> does with the input images is mask any problem areas. These include cosmic rays strikes, satellite trails, hot pixels, CCD defects, etc. This is a critical step in any difference imaging analysis as even the smallest artifact or set of bad pixels can inhibit the quality of the residual images.</p>
+<p>Many observatories perform some of this masking automatically in their calibration pipelines, on-the-spot as data is taken. They often store these masks as FITS extensions to the original image. Consequently, before masking <strong>OASIS</strong> looks for a “bad pixel mask” (BPM) extension to use as a foundation for the mask building process. If none is found <strong>OASIS</strong> searches for another extension that might contain a mask. If this is unsuccessful the foundation is just a zero mask.</p>
+<p>For the masking process <strong>OASIS</strong> makes use of a modified version of the <code class="docutils literal notranslate"><span class="pre">astroscrappy</span></code> python package (C. McCully), which itself is based off of the popular LA Cosmic algorithm. Running the <code class="docutils literal notranslate"><span class="pre">mask</span></code> method will mask all cosmic rays in each image, as well as saturated stars and other problem objects. Later on, edges created during the registration process are also added to this mask.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There are two types of masks <strong>OASIS</strong> uses. The first is the common binary image mask, created during this masking process. In this type each pixel is represented by a 0 or 1, 0 being a good pixel and 1 being a masked one. The second type is what is usually referred to as a “weight-map.” Here the elements of the map represent the weight of each pixel. Another way to think about it is as an inverse variance map. The higher a pixel’s weight (or inverse variance) the more confident we are in the value of that pixel. Thus, bad pixels will have a low weight (usually 0) and good pixels will have a high weight (usually 1). The weight maps computed by <strong>OASIS</strong> are normalized on the interval [0, 1]. After the initial masking process all image masks are converted to weight maps, as these are more accurate and offer a greater amount of masking control. If you are ever uncertain on what type of mask an image has, just look for the ‘WEIGHT’ header keyword in the primary FITS header. A value of ‘Y’ means it’s a weight map, a value of ‘N’ means it’s a binary mask.</p>
+</div>
+</div>
+<div class="section" id="psf-modeling">
+<h3>PSF Modeling<a class="headerlink" href="#psf-modeling" title="Permalink to this headline">¶</a></h3>
+<p>A critical step in any difference imaging application is being able to model the point-spread functions (PSFs) of the dataset quickly and accurately. <strong>OASIS</strong> does this using the Astromatic program <strong>PSFex</strong> (E. Bertin). The outputted models are then used by <strong>OASIS</strong> for a number of different operations. A preliminary bad image-rejection algorithm uses the PSF FHWM to clip images exceeding a certain threshold. The reference image selection algorithm also uses the FWHM to choose the reference image. The source extraction algorithm uses the overall PSF model to distinguish between stellar sources and galaxies. In the future the PSF model will also be used to optimize the subtraction parameters more efficiently (section <strong>something</strong>).</p>
+<p>Running the <code class="docutils literal notranslate"><span class="pre">psf</span></code> method will output two files for each image, one <em>.cat</em> file and one <em>.psf</em> file, both into the <strong>psf</strong> directory. The <em>.cat</em> file is the source catalog used by <strong>PSFex</strong> to compute the PSF model. The <em>.psf</em> file is the PSF model itself.</p>
+</div>
+<div class="section" id="image-rejection">
+<h3>Image Rejection<a class="headerlink" href="#image-rejection" title="Permalink to this headline">¶</a></h3>
+<p>After masking and PSF modeling <strong>OASIS</strong> searches the dataset for poor quality images that will inhibit the difference imaging process. These usually include images with large defects, focusing issues, extremely poor seeing, low S/N, etc., that could prove toxic, especially to the construction of the template image. This step is completed automatically during the registration step and does not need to be called explicitly. Any bad images found are moved into the <strong>archive</strong> OASIS subdirectory.</p>
+</div>
+<div class="section" id="registration">
+<h3>Registration<a class="headerlink" href="#registration" title="Permalink to this headline">¶</a></h3>
+<p>Before subtracting two images, it is critical to register them to the same astrometric grid (align them), ideally to subpixel precision. To do this <strong>OASIS</strong> employs a two-step registration approach. First, an initial non-subpixel transformation is found with the feature-based python package <code class="docutils literal notranslate"><span class="pre">astroalign</span></code> (M. Beroiz). Once the images are aligned using <code class="docutils literal notranslate"><span class="pre">astroalign</span></code> the final subpixel registration is completed using the <code class="docutils literal notranslate"><span class="pre">image_registration</span></code> (A. Ginsburg) python package, which uses the cross-correlation method to find the horizontal and vertical pixel offsets between the two images.</p>
+<p>When registering images, a reference image needs to be chosen to which all other frames will be aligned. This is done automatically by <strong>OASIS</strong> when the <code class="docutils literal notranslate"><span class="pre">align</span></code> method is executed. The chosen reference image is the one with the highest S/N. Another option for choosig the reference is that with the best seeing. This option may be included in a later version of <strong>OASIS</strong>.</p>
+<p>After the reference frame is chosen and the registration is complete, the last step of the <cite>align</cite> method is to match the intensity scales of each image to the reference image. This step utilizes the <strong>IRAF</strong> routine <code class="docutils literal notranslate"><span class="pre">linmatch</span></code>. Here flux is preserved as the intensity offsets are assumed to be linear.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>After each image is registered, its filename will change from <em>timeofexposure_N_.fits</em> to <em>timeofexposure_A_.fits</em>. The “U” represents “unaligned” and “A” represents “aligned.”</p>
+</div>
+</div>
+<div class="section" id="template-construction">
+<h3>Template Construction<a class="headerlink" href="#template-construction" title="Permalink to this headline">¶</a></h3>
+<p>After the images are all masked and registered to the reference field, they are ready to be combined into a template image. This template image is simply a weighted median stack (according to their weight maps) of the science images images with the best seeing. The default number of images to include in the stack is top 33% with respect to seeing, though this can be changed in the <em>OASIS.congig</em> file. The actual stacking is done with the program <strong>SWarp</strong> (E. Bertin). The final template image is outputted to the target’s ‘templates’ directory, along with a log of the past template constructions. This log is titled <em>log.txt</em> and is located in the <strong>templates</strong> directory.</p>
+</div>
+<div class="section" id="subtraction">
+<h3>Subtraction<a class="headerlink" href="#subtraction" title="Permalink to this headline">¶</a></h3>
+<p>Finally we arrive at the heart of <strong>OASIS</strong>. In this step the images will finally be subtracted from each other to create the residual frames that will be searched for variable objects.</p>
+<p><strong>OASIS</strong> handles the subtraction in two different steps. The first is the actual subtraction of the images, and the second is quality assurance, making sure that all the residual frames represent a successful subtraction. Both steps are included in the <code class="docutils literal notranslate"><span class="pre">subtract</span></code> method, so no explicit calls need to be made to either one.</p>
+<div class="section" id="step-one">
+<h4>Step One<a class="headerlink" href="#step-one" title="Permalink to this headline">¶</a></h4>
+<p>The first subtraction step starts with all science frames again having their flux rescaled, this time according to the template image. This is again done with <strong>IRAF</strong>’s <code class="docutils literal notranslate"><span class="pre">linmatch</span></code> routine. After this rescaling each science image’s header will have the keyword ‘SCALE’ value changed to ‘Y’. Next <strong>OASIS</strong> calls upon the <strong>ISIS</strong> program (C. Alard), which implements the popular Optimal Image Subtraction (OIS) algorithm. The main goal of OIS is to smear the template’s PSF to exactly match the science’s PSF. This is done through the use of a convolution kernel made up of a set of basis vectors (found using a least squares approximation), which is then applied to the template image. OIS handles the matching of both the backgrounds and the PSF, with the option for deriving a spatially-varying kernel. This is crucial as especially with large-scale survey data, the PSF is almost certain to vary across the image plane. Without this step there will be significant errors in the residual images and thus false positives in the source extraction step. There are numerous user-defined parameters OIS uses to complete this. This is <strong>OASIS</strong>’s most computationaly intensive test. It takes a few seconds for each PSF to be matched, and up to 45 seconds per image if no optimal configuration setup is found (see subtraction step two). After the PSFs of the two image are matched the template is subtracted from the science image and the output residual image is placed in the <strong>residuals</strong> directory with the <em>_residual_</em> suffix appended to the end of the original image name.</p>
+</div>
+<div class="section" id="step-two">
+<h4>Step Two<a class="headerlink" href="#step-two" title="Permalink to this headline">¶</a></h4>
+<p>The second subtraction step (the “optimization”) ensures that each residual created in the first step is the best possible subtraction. This is done by first checking the quality of the residual obtained in the first step, then repeating the step with a different OIS configuration set until the optimal residual is created. The OIS configuration set is a text file defining a number of parameters that will be called by the subtraction algorithm. They define things like the size of the stamp (the pixel box used to search the image for stars), the degree of PSF variation across the image, the size of the kernel used to convolve the template PSF, etc. The optimal values for these parameters vary depending on the type of image being subtracted. For most images, the default values for these parameters will work fine. On some images though, especially if they’re extremely oversampled or undersampled, a different set of values must be used. This is where the optimization step comes in. It tries running the subtraction program with a variety (a set of 9) of common parameter values, checking each time if the subtraction is up to an acceptable quality. When it finds the correct confguration, that residual is kept and OASIS moves onto the next image. In the unlikely event that no good configuration is found, the residual is completely masked so as to prevent contaminating the master residual frame.</p>
+</div>
+<div class="section" id="residual-quality">
+<h4>Residual Quality<a class="headerlink" href="#residual-quality" title="Permalink to this headline">¶</a></h4>
+<p>The most important part of the “optimization” step described above is the checking of the residual’s quality. Deriving a rigorous quality-estimation algorithm is paramount to the ability of <strong>OASIS</strong> to choose the “best” residual.</p>
+<p>To calculate the “goodness” of each residual frame, <strong>OASIS</strong> takes a simple minimization approach. First, the ideal residual frame is found for the given science and template images. This ideal residual is defined to be the result of subtracting two Poisson-distributed noise images, each with a mean pixel value equal to the background of the original input images. These Poissian noise images represent ideal science and template images, free of CCD noise and defects, and free from any sources. These images are then limited only by the photon shot noise instrinsic to all astronomical observations. This shot noise follows a Poissonian distribution with a mean approximately equal to the average background pixel value in photons. Subtracting these two shot noise images results in the “ideal” residual frame, a shot noise-limited image free of any artifacts, defects, sources, and additional noise.</p>
+<p>Mathematically this ideal residual can be decribed by the Skellam distrubtion, which is defined as the probability distribution of the difference of two random variables that both follow the Poissonian distribution. This probabiltiy distribution has the form</p>
+<div class="math notranslate nohighlight">
+\[p\{k;\mu_S,\mu_T\}=e^{-(\mu_S+\mu_T)} (\mu_S/\mu_T)^{k/2} I_k(2\sqrt{2\mu_S\mu_T})\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mu_S\)</span> and <span class="math notranslate nohighlight">\(\mu_T\)</span> are the mean background photon counts of the science and template images, respectively, and <span class="math notranslate nohighlight">\(I_k\)</span> is a modified Bessel function of the first kind. The mean of this Skellam-distributed residual <span class="math notranslate nohighlight">\(\mu_R\)</span> is simply <span class="math notranslate nohighlight">\(\mu_R=\mu_S-\mu_T\)</span> and its standard deviation is <span class="math notranslate nohighlight">\(\sigma_R=\sqrt{\mu_S + \mu_T}\)</span>. This is the distribution the real residuals should follow as closely as possible. Therefore, one way to estimate the quality of a given residual is to measure the residual’s deviation from this ideal Skellam distrubtion. <strong>OASIS</strong> does this by using this ideal Skellam image to compute a “quality parameter” <span class="math notranslate nohighlight">\(Q\)</span>. More details on the <span class="math notranslate nohighlight">\(Q\)</span> metric can be found in the software’s accompanying paper (<strong>citation</strong>), but briefly it is defined as</p>
+<div class="math notranslate nohighlight">
+\[Q=1/(1+[\chi^2 / N_{pix}])\]</div>
+<p>where <span class="math notranslate nohighlight">\(\chi^2\)</span> is the standard chi-squared value from the “goodness-of-fit’ test of the ideal Skellam distribution and the real residual’s pixel distribution, and <span class="math notranslate nohighlight">\(N_{pix}\)</span> is the number of pixels used to fit the two distributions. <span class="math notranslate nohighlight">\(N_{pix}\)</span> is included in the expression as a sort of “normalizing” factor” to keep <span class="math notranslate nohighlight">\(\chi^2\)</span> at a reasonable value. The number of pixels used to calculate <span class="math notranslate nohighlight">\(Q\)</span> is often extremely large, usually well over a million, which has the tendancy to inflate <span class="math notranslate nohighlight">\(\chi^2\)</span> values for residuals that otherwise would be considered perfect. Dividing <span class="math notranslate nohighlight">\(\chi^2\)</span> by <span class="math notranslate nohighlight">\(N_{pix}\)</span> accounts for this inflation.</p>
+<p>The metric <span class="math notranslate nohighlight">\(Q\)</span> is defined in this way in order to facilitate clipping of poor quality residuals. By definition, <span class="math notranslate nohighlight">\(Q &gt; 0.50\)</span> indicates a good residual, and <span class="math notranslate nohighlight">\(Q =1\)</span> indicates an unobtainably perfect one. These are robust values that should be true for most astronomical data, though the time may come when the user wants to choose theri own thresholding values.</p>
+<p>Two thresholds are defined by <strong>OASIS</strong> in order to choose the best residual, a <em>floor</em> threshold and <em>ceiling</em> threshold. The <em>floor</em> threshold resresents the minimum <span class="math notranslate nohighlight">\(Q\)</span> value a residual can have and still be accepted by <strong>OASIS</strong>. The <em>ceiling</em> threshold is the <span class="math notranslate nohighlight">\(Q\)</span> value that when exceeded, the optimization step is stopped and the current residual is taken to be the best. As a default setting <strong>OASIS</strong> uses a <em>floor</em> <span class="math notranslate nohighlight">\(Q\)</span> value of <span class="math notranslate nohighlight">\(0.50\)</span> and <em>ceiling</em> of <span class="math notranslate nohighlight">\(0.75\)</span>. These thresholds can be changed by editing the <em>OASIS_configs.txt</em> file in the <strong>configs</strong> directory, but be warned, if they are made to be too low the risk of false sources being included in the final object catalogs increases, and if they are made too high the program’s runtime may increase to a point of absurdity, possibly up to 5 minutes for a single science-template image set. The default thresholds represent a good compromise between these two cases. Even so, if your project is exceptionally unique you may benefit from playing with the <span class="math notranslate nohighlight">\(Q\)</span> thresholds.</p>
+</div>
+</div>
+<div class="section" id="source-extraction">
+<h3>Source Extraction<a class="headerlink" href="#source-extraction" title="Permalink to this headline">¶</a></h3>
+<p>The final step in the <strong>OASIS Pipeline</strong> is to extract any sources from the residual frames created in the previous <code class="docutils literal notranslate"><span class="pre">subtract</span></code> step. If the subtraction is done correctly, theoretically the residual images should be photon noise-limited, meaning that the dominant source of flux is simply the photon noise present in the original science and template images. This noise cannot be subtracted away and will thus make up a uniform “background” of the residual image. Source extraction then becomes a trivial process, simply looking for groups of adjacent pixels exceeding a certain ADU threshold, identical to the problem of source extraction in regular stellar images. Due to this, rather than reinvent the wheel, OASIS calls on popular source extraction software used for this very purpose–<strong>SExtractor</strong> (E. Bertin).</p>
+<p><strong>SExtractor</strong> has a large swath of tunable parameters that can be changed to make the program work for a wide range of data. Most of these parameters will never need to be changed, and those that do are automatically updated for each image by <strong>OASIS</strong>. However, you may wish to change the parameters configuration yourself, especially if your images are unique in some way. To do this simply edit the <em>default.sex</em> file in the <strong>configs</strong> directory.</p>
+<p>The structure of the <code class="docutils literal notranslate"><span class="pre">extract</span></code> method is as follows:</p>
+<ol class="arabic">
+<li><p>First, the residual frames are all normalized according the a statistic called the <em>poisson deviation</em>. The poisson deviation is simply the combined photon shot noise of the original science and template image. Mathematically the normalization can be expressed as <span class="math notranslate nohighlight">\(R_{norm} = (R - \mu_R)/\sqrt{B_S + B_T}\)</span>, where <span class="math notranslate nohighlight">\(R\)</span> is the original residual image, <span class="math notranslate nohighlight">\(\mu_R\)</span> is the residual’s mean pixel value, and <span class="math notranslate nohighlight">\(B_S\)</span> and <span class="math notranslate nohighlight">\(B_T\)</span> are the sigma-clipped background estimates for the science and template images, respectively. If the residual is a quality one, this normalization will result in a pixel distribution closely resembling a standard normal curve.</p></li>
+<li><p>After normalization, a stack of the residuals is constructed using the weighted average of each pixel value. This image stack is called the <em>master residual</em>, and it is currently an experimental feature. Stacking residual frames can be a extrmemely valuable for a number of reasons. For one, it makes quick identification of variable stars and transient objects easy. Rather than sift through the catalogs of hundreds or thousands of images, one can simply look at a master residual frame to find all of the sources in question. Of course, this means sacrificing the source’s temporal information (time of detection), but sometimes just knowing a signal exists is all a user needs to do. Additionally, creating a master residual is enticing because of the S/N increase that is possible when stacking astronomical data. Sources that would otherwise be too faint to be detected by <strong>SExtractor</strong> in their individual residual frames could possibly become visible in the master frame due to the minimization of background noise. However, as good as it is to have a master residual, implementing this stacking successfully is tricky and has the potential to do more harm than good. The primary difficulty in creating the master residual is deciding on a stacking algorithm. A historically popular choice has been to stack the residuals according to the sum of squared pixel values. This is an effective algorithm as it is incredibly sensitive to outliers (sources), however we have found that it is also prone to false positives. This is because bright stars will sometimes leave residual flux primarily due to scintillation. This residual is not detected as a signal in the individual residual image because of its noisy profile, but when the images are all stacked this bright star residual will often combine to form a point source object, which <strong>OASIS</strong> then mistakes for a variable star. This was verified using simulated, non-variable data (see paper for the more gory details). A safer option for stacking is the weighted mean. It is less sensitive to outliers and thus decreases the source S/N, but it also minimizes the number of false positives leaking into the master residual. This is the default stacking method OASIS uses, and has proven to be fairly reliable. However, it is advised to still use caution when looking at your master residuals, and when in doubt as to whether a certain signal is authentic or not we suggest taking a look at the individual residual source catalogs for verification.</p></li>
+<li><p>After normalization and residual stacking, <strong>SExtractor</strong> can finally be run. First <strong>SExtractor</strong> is run on each individual residual image, generating a preliminary source catalog for each. <strong>SExtractor</strong> is then run on the master residual, outputting another catalog when completed.</p></li>
+<li><p>The final step of the <code class="docutils literal notranslate"><span class="pre">extract</span></code> method is source rejection. In its first run through the data, <strong>SExtractor</strong> will inevitably record many “sources” that are not real sources at all. Most of these will be cosmic rays or hot pixels that evaded <strong>OASIS</strong>’s masking step, bright or saturated star residuals, or satellite/asteroid trails. Thankfully, all of these possess a different profile than a true variable point source, and thus are easly filtered out. To do this <strong>OASIS</strong> implements a filtering algorithm, the steps of which will be briefly laid out here.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Sources that show up in a majority of the residual frames are rejected</p></li>
+<li><p>Sources that are diveted (a sign of saturation or subtraction error) are rejected (see paper for details)</p></li>
+<li><p>Sources with a <code class="docutils literal notranslate"><span class="pre">spread_model</span></code> parameter less than 0 or greater than 0.1 are rejected.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<p>After the initial catalogs are cut down by the above filters, the remaining sources are compiled into one master catalog titled <em>filtered_sources.txt</em> located in the <strong>sources</strong> directory. The unfiltered sources can be found in the <em>sources.txt</em> file.</p>
+<p>After the individual residuals are “SExtracted”, filtered, and cataloged, the master residual will undergo the exact same process. The outputted catalogs for the master residual are <em>MR_filtered_sources.txt</em> and <em>MR_sources.txt</em>.</p>
+<p>In addition to these final catalogs <strong>OASIS</strong> outputs a file called <em>total_sources.txt</em>. This text file includes some basic statistics of the dataset’s source catalogs. Specifically, it shows the number of initial sources found by <strong>SExtractor</strong>, the number that were filtered out, and the number of remaining “confirmed” detections in both the individual residuals and the master resiudal. It also shows the number of images that were not able to be subtracted, as well as the dataset’s average <span class="math notranslate nohighlight">\(Q\)</span> value.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There are other more efficient filtering methods that can and should be included in this step. These include MCA (<em>morphological component analysis</em>) and a machine learned point-source classifier (<em>DES DiffIm pipeline</em>). Another possible filtering method uses edge and contour deteciton algorithms to distinguish between actual point sources and those resulting from bright/saturated stars. All of these implementations are under development and at least one will be included in the next release of <strong>OASIS</strong>.</p>
+</div>
+</div>
+<div class="section" id="simulations">
+<h3>Simulations<a class="headerlink" href="#simulations" title="Permalink to this headline">¶</a></h3>
+<p>Included in the <strong>OasisPy</strong> package is the ability to create simulated data sets to test and visualize <strong>OASIS</strong>’s efficacy. There are two options for running simulations, <em>fakes</em> and <em>zero-point</em>, both of which will be explained here.</p>
+<ul>
+<li><p>The <em>fakes</em> simulation superimposes fake point sources (fakes) onto a random image in your dataset, then runs the data through the <strong>OASIS Pipeline</strong>. This means of course to run this simulation a user needs to already have some data at their disposal. The final catalogs are then searched for the original fakes. A log of the detection statistics of the fakes is kept and used to create a detection efficiency plot at the end of the simulation. The fakes by nature of the code will be placed at random locations in the image plane with a random flux. The user can specify how many fakes to create, the range of possible fluxes, how many iterations of the simulation to run through, etc. The idea behind this simulation is to gauge the minimum flux a signal would need to be detected in a certain dataset. See paper and <a class="reference internal" href="API.html"><span class="doc">API</span></a> for more details.</p></li>
+<li><p>The <em>zero-point</em> simulation involves taking a real image from a dataset, creating <span class="math notranslate nohighlight">\(N\)</span> simulations of the image, then running the simulated images through the <strong>OASIS Pipeline</strong>. The simulated images (zero-point images) are created using <strong>SExtractor</strong> and <strong>SkyMaker</strong> (astromatic simulation software). These zero-point images are made to all possess the same sources with all the same flux, hence the “zero-point” identifier. The only changes that are made to the simulations are the following</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Image is shifted and rotated by a random pixel offset and rotation angle</p></li>
+<li><p>Image seeing is degraded or sharpened slightly by a random seeing factor</p></li>
+<li><p>Image background is rescaled to a different, random value.</p></li>
+</ol>
+</div></blockquote>
+</li>
+</ul>
+<p>These manipulations are meant to mimick the frame-by-frame variations in real astronomical data. Thus the <em>zero-point</em> simulation tests <strong>OASIS</strong>’s ability to handle variations in PSF, background, and pointing, while still returning reliable difference imaging results. Since all zero-point images contain the same sources with the same flux, a successful simulation run would be one that returns zero variable sources in the <em>filtered_sources.txt</em> file. If the number of detection is higher than just a few, this is a sign that OASIS is not working properly. Users are encouraged to play with this feature to test the software’s limits.</p>
+</div>
+<div class="section" id="mosaicking">
+<h3>Mosaicking<a class="headerlink" href="#mosaicking" title="Permalink to this headline">¶</a></h3>
+<p><strong>OasisPy</strong> has a built in utility for users wanting to stitch together frames of adjacent pointings, likely survey data. Mosaicking this data into a single image can help uncover large-scale patterns in the difference images–such as distribution of variable stars in a spiral galaxy–or simply help to create pretty, presentation-worthy pictures.</p>
+<p>The actual mosaic code is nothing more than a simple Python script written to faciliate the use of <strong>Montage</strong>, an astronomical mosaicking engine. <strong>Montage</strong> is essentially a collection of image processing modules that allow users to register and resample images, background match them, and create a mosaic (among many other things). The software is written in C, but interfacing with Python is easy with <strong>MontagePy</strong>, a collection of Python binary extensions to the existing <strong>Montage</strong> modules. Using <strong>MontagePy</strong>, we have written a simple Python script that takes a dataset and outputs the corresponding mosaic. The script is fairly robust, with the user being given control over many of the mosaicking parameters. Still, this is a bare bones mosaickig solution, and for more complicated or niche projects you are better off building your own personal implementation of <strong>Montage</strong>. For more info see the <strong>Montage</strong> documentation at <a class="reference external" href="http://montage.ipac.caltech.edu/">http://montage.ipac.caltech.edu/</a>.</p>
+</div>
+<div class="section" id="testing">
+<h3>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h3>
+<p>To test the installation <strong>OasisPy</strong> includes a <code class="docutils literal notranslate"><span class="pre">test</span></code> method. This code downloads publically available data from the Las Cumbres Observatory’s Science Archive, runs it through the <strong>OASIS Pipeline</strong>, then compares the obtained results with a set of control results. The object currently used to conduct the test is exoplanet WASP 150b. A total of 30 images are downloaded, and to illustrate <strong>OASIS</strong>’s ability to find transient objects three fake sources are added to image <em>someimagename</em>. Looking at this image’s residual or the data set’s master residual should show these fake sources clearly. If successful the program will print out “TEST SUCCESSFUL!” at the conclusion of the test. Below is the control master residual used for comparison. Clearly visible are the three fake sources.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tutorial.html" class="btn btn-neutral float-right" title="Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="gettingstarted.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Andrew Stewart
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

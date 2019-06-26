@@ -1,0 +1,502 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API &mdash; OasisPy 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Troubleshooting" href="troubleshooting.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> OasisPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Table of Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installing <strong>OasisPy</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="howitworks.html">How It Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#oasis-methods"><strong>OASIS</strong> Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#convenience-functions">Convenience Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#auxillary-functions">Auxillary Functions</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OasisPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/API.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api">
+<h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="oasis-methods">
+<h2><strong>OASIS</strong> Methods<a class="headerlink" href="#oasis-methods" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="OasisPy.initialize.INITIALIZE">
+<code class="sig-prename descclassname">OasisPy.initialize.</code><code class="sig-name descname">INITIALIZE</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#OasisPy.initialize.INITIALIZE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets up the <strong>OASIS</strong> environment on a new machine. Creates the <strong>OASIS</strong> file tree and installs Alard’s <code class="docutils literal notranslate"><span class="pre">ISIS</span></code> program (see documentation for details).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="OasisPy.get.GET">
+<code class="sig-prename descclassname">OasisPy.get.</code><code class="sig-name descname">GET</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#OasisPy.get.GET" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetches and prepares data for difference imaging. Two <code class="docutils literal notranslate"><span class="pre">get</span></code> modes:</p>
+<ul class="simple">
+<li><p><em>dl</em>: used to fetch images from the Las Cumbres Observatory (LCO) data archive.</p></li>
+<li><p><em>unpack</em>: used for non-LCO data. Users acquire images themselves and then call <code class="docutils literal notranslate"><span class="pre">get</span></code> in <em>unpack</em> mode to prepare the data for difference imaging.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="OasisPy.mask.MASK">
+<code class="sig-prename descclassname">OasisPy.mask.</code><code class="sig-name descname">MASK</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="headerlink" href="#OasisPy.mask.MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Masks all cosmic rays, saturated stars, and other defects in the science images. Combines the cosmic ray mask with the image’s initial bad pixel mask (set to <code class="docutils literal notranslate"><span class="pre">NULL</span></code> if no BPM is found) to make a master mask. Uses the python package <code class="docutils literal notranslate"><span class="pre">astroscrappy</span></code> (see documentation for details).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – Path of data file tree (contains the <strong>configs</strong>, <strong>data</strong>, <strong>psf</strong>, <strong>residuals</strong>, <strong>sources</strong>, <strong>templates</strong> directories). Use a comma-separated list for mapping to multiple datasets.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>All science images are masked. The values of the <code class="docutils literal notranslate"><span class="pre">MASKED</span></code> keyword in their FITS headers are changed to ‘Y’ if masking is successful.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="OasisPy.align.ALIGN">
+<code class="sig-prename descclassname">OasisPy.align.</code><code class="sig-name descname">ALIGN</code><span class="sig-paren">(</span><em class="sig-param">path</em>, <em class="sig-param">align_method='standard'</em><span class="sig-paren">)</span><a class="headerlink" href="#OasisPy.align.ALIGN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers all science images to their reference image. If no reference image exists, one is chosen (see documentation for details).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Path of data file tree (contains the <strong>configs</strong>, <strong>data</strong>, <strong>psf</strong>, <strong>residuals</strong>, <strong>sources</strong>, <strong>templates</strong> directories). Use a comma-separated list for mapping to multiple datasets.</p></li>
+<li><p><strong>align_method</strong><strong> (</strong><strong>default='standard'</strong><strong>)</strong> (<em>str</em>) – Method of alignment. Can be either <em>standard</em> or <em>fakes</em>. Default is <em>standard</em>. The <em>fakes</em> method should be used only for simulations, as it bypasses registration and only performs photometric alignment.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Aligns all science images are aligned to the reference image to subpixel precision. A succesful alignment changes an image’s suffix from <em>_U_</em> to <em>_A_</em>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="OasisPy.psf.PSF">
+<code class="sig-prename descclassname">OasisPy.psf.</code><code class="sig-name descname">PSF</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="headerlink" href="#OasisPy.psf.PSF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes PSF model of science images. Uses <code class="docutils literal notranslate"><span class="pre">PSFex</span></code> (Bertin).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – Path of data file tree (contains the <strong>configs</strong>, <strong>data</strong>, <strong>psf</strong>, <strong>residuals</strong>, <strong>sources</strong>, <strong>templates</strong> directories). Use a comma-separated list for mapping to multiple datasets.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>PSF models of each science image are ouputted into the <strong>psf</strong> directory with the <em>.psf</em> suffix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="OasisPy.combine.COMBINE">
+<code class="sig-prename descclassname">OasisPy.combine.</code><code class="sig-name descname">COMBINE</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="headerlink" href="#OasisPy.combine.COMBINE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stacks science images into a high <em>S/N</em> template frame. Stacking method is the weighted median value of each pixel and is done by the AstrOmatic software <code class="docutils literal notranslate"><span class="pre">SWarp</span></code> (E. Bertin). Only the top third of science images with respect to seeing are included in the template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – Path of data file tree (contains the <strong>configs</strong>, <strong>data</strong>, <strong>psf</strong>, <strong>residuals</strong>, <strong>sources</strong>, <strong>templates</strong> directories). Use a comma-separated list for mapping to multiple datasets.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Weighted median coaddition of all science images is outputted into the <strong>templates</strong> directory with the name convention of <em>StackMethod_NumberOfImagesInDataset.fits</em>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="OasisPy.subtract.SUBTRACT">
+<code class="sig-prename descclassname">OasisPy.subtract.</code><code class="sig-name descname">SUBTRACT</code><span class="sig-paren">(</span><em class="sig-param">path</em>, <em class="sig-param">method='ois'</em>, <em class="sig-param">use_config_file=True</em><span class="sig-paren">)</span><a class="headerlink" href="#OasisPy.subtract.SUBTRACT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs difference imaging on the science images. The template image is convolved to match the science image’s PSF, then the template is subtracted from the science image.
+This process is repeated for a number of different parameter configurations until an optimal residual is found.
+The actual convolution and subtraction is done with either the <code class="docutils literal notranslate"><span class="pre">ISIS</span></code> package (Alard) or <code class="docutils literal notranslate"><span class="pre">hotpants</span></code> (Becker). See documentation for details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Path of data file tree (contains the <strong>configs</strong>, <strong>data</strong>, <strong>psf</strong>, <strong>residuals</strong>, <strong>sources</strong>, <strong>templates</strong> directories). Use a comma-separated list for mapping to multiple datasets.</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – <p>Method of difference imaging.</p>
+<ul>
+<li><p><em>ois</em> (default): Optimal Image Subtraction. Christohpe Alard’s <code class="docutils literal notranslate"><span class="pre">ISIS</span></code> package.</p></li>
+<li><p><em>hotpants</em>: Andrew Becker’s <code class="docutils literal notranslate"><span class="pre">hotpants</span></code> program. Very similar to Alard’s OIS, but differs in input parameters. May be useful to try if OIS is returning inadequate results.</p></li>
+</ul>
+</p></li>
+<li><p><strong>use_config_file</strong><strong> (</strong><strong>default=True</strong><strong>)</strong> (<em>bool</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code> all input parameters are fetched from the local <em>OASIS.config</em> file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>All science images are differenced and the corresponding residuals are placed in the <strong>residuals</strong> directory with the <em>_residual_</em> suffix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="OasisPy.MR.MR">
+<code class="sig-prename descclassname">OasisPy.MR.</code><code class="sig-name descname">MR</code><span class="sig-paren">(</span><em class="sig-param">path</em>, <em class="sig-param">method='swarp'</em>, <em class="sig-param">sig_thresh=4</em>, <em class="sig-param">gauss_sig=3</em>, <em class="sig-param">gauss_filt=False</em>, <em class="sig-param">use_config_file=True</em><span class="sig-paren">)</span><a class="headerlink" href="#OasisPy.MR.MR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stacks residual frames into a <em>master residual</em>. Extremely useful for identifying faint variables and quick object detection, but should be used with caution. See documentation for details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Path of data file tree (contains the <strong>configs</strong>, <strong>data</strong>, <strong>psf</strong>, <strong>residuals</strong>, <strong>sources</strong>, <strong>templates</strong> directories). Use a comma-separated list for mapping to multiple datasets.</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – <p>Stacking method.</p>
+<ul>
+<li><p><em>swarp</em> (default): Uses <code class="docutils literal notranslate"><span class="pre">SWarp</span></code> (Bertin) to stack the residuals according to the weighted average of the pixels.</p></li>
+<li><p><em>sos</em>: Sum of squares, pixel-wise.</p></li>
+<li><p><em>sos_abs</em>: Absolute sum of squares, pixel-wise. Preserves sign. Mathematically, this look like <span class="math notranslate nohighlight">\(\Sigma(p_i \cdot |p_i|)\)</span> with <span class="math notranslate nohighlight">\(p_i\)</span> being the <span class="math notranslate nohighlight">\(ith\)</span> pixel. For example, a series of pixels [10, 2, -3, -6] would be stacked according to 100 + 4 + -9 + -36.</p></li>
+<li><p><em>sigma_clip</em>: Takes the median of each pixel, unless there exists a pixel above or below a certain number of sigmas, in which case this outlying pixel is taken to be the stacked value.</p></li>
+</ul>
+</p></li>
+<li><p><strong>sig_thresh</strong><strong> (</strong><strong>default=4</strong><strong>)</strong> (<em>float</em>) – Only used for <em>sigma_clip</em> method. Number of sigmas pixel must exceed to be used as stacked value.</p></li>
+<li><p><strong>gauss_sig</strong><strong> (</strong><strong>default=3</strong><strong>)</strong> (<em>float</em>) – Only used for <em>sigma_clip</em> method. Number of sigmas used for gaussian filter.</p></li>
+<li><p><strong>gauss_filt</strong><strong> (</strong><strong>default=False</strong><strong>)</strong> (<em>bool</em>) – Only used for <em>sigma_clip</em> method. When <code class="docutils literal notranslate"><span class="pre">True</span></code> the final master residual will be smoothed with a gaussian filter with a sigma equal to <em>gauss_sig</em>.</p></li>
+<li><p><strong>use_config_file</strong><strong> (</strong><strong>default=True</strong><strong>)</strong> (<em>bool</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code> all input parameters are fetched from the local <em>OASIS.config</em> file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A stacked master residual frame, located in the <strong>residuals</strong> directory with the name <em>MR.fits</em>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="OasisPy.extract.EXTRACT">
+<code class="sig-prename descclassname">OasisPy.extract.</code><code class="sig-name descname">EXTRACT</code><span class="sig-paren">(</span><em class="sig-param">path</em>, <em class="sig-param">method='both'</em><span class="sig-paren">)</span><a class="headerlink" href="#OasisPy.extract.EXTRACT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts sources from individual residual frames located in <strong>residuals</strong> directory. Automatically filters out false positives and objects not of interest (see documentation for details). Uses <code class="docutils literal notranslate"><span class="pre">SExtractor</span></code> to create the initial sources catalogs, which are outputted to the <strong>sources</strong> directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Path of data file tree (contains the <strong>configs</strong>, <strong>data</strong>, <strong>psf</strong>, <strong>residuals</strong>, <strong>sources</strong>, <strong>templates</strong> directories). Use a comma-separated list for mapping to multiple datasets.</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – <p>Method of source extraction. Tells <strong>OASIS</strong> whether to extract sources from the individual residuals, the master residual, or both.</p>
+<ul>
+<li><p><em>both</em> (default): Runs <code class="docutils literal notranslate"><span class="pre">SExtractor</span></code> on both residuals and master residual.</p></li>
+<li><p><em>indiv</em>: Runs <code class="docutils literal notranslate"><span class="pre">SExtractor</span></code> only on residuals.</p></li>
+<li><p><em>MR</em>: Runs <code class="docutils literal notranslate"><span class="pre">SExtractor</span></code> only on master residual.</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A filtered source catalog for each image specified with the <em>method</em> parameter is created and appended to the text file <em>filtered_sources.txt</em> located in the <strong>sources</strong> directory. Source extraction statistics and extra info are located in <em>total_sources.txt</em>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="convenience-functions">
+<h2>Convenience Functions<a class="headerlink" href="#convenience-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="OasisPy.pipeline.PIPELINE">
+<code class="sig-prename descclassname">OasisPy.pipeline.</code><code class="sig-name descname">PIPELINE</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="headerlink" href="#OasisPy.pipeline.PIPELINE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <strong>OASIS Pipeline</strong>. Runs all <strong>OASIS</strong> functions in succession.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – Path of data file tree (contains the <strong>configs</strong>, <strong>data</strong>, <strong>psf</strong>, <strong>residuals</strong>, <strong>sources</strong>, <strong>templates</strong> directories). Use a comma-separated list for mapping to multiple datasets.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>All-in-one difference imaging pipeline. Raw science images are placed in the <strong>data</strong> directory, and residual images and source catalogs are outputted into the <strong>residuals</strong> and <strong>sources</strong> directories, respectively.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="OasisPy.run.RUN">
+<code class="sig-prename descclassname">OasisPy.run.</code><code class="sig-name descname">RUN</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#OasisPy.run.RUN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Master run function. Allows user to call any of the main <strong>OASIS</strong> methods. See documentation for details.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="auxillary-functions">
+<h2>Auxillary Functions<a class="headerlink" href="#auxillary-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="OasisPy.simulation.sim_fakes">
+<code class="sig-prename descclassname">OasisPy.simulation.</code><code class="sig-name descname">sim_fakes</code><span class="sig-paren">(</span><em class="sig-param">location</em>, <em class="sig-param">n_fakes</em>, <em class="sig-param">iterations</em>, <em class="sig-param">input_mode='flux'</em>, <em class="sig-param">PSF='moffat'</em>, <em class="sig-param">subtract_method='ois'</em>, <em class="sig-param">f_min=0</em>, <em class="sig-param">f_max=40000</em><span class="sig-paren">)</span><a class="headerlink" href="#OasisPy.simulation.sim_fakes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulates transient signals (fakes) and tests <strong>OASIS</strong>’s ability to detect them. The procedure of the simulation is as follows:</p>
+<ol class="arabic simple">
+<li><p>Makes a copy of the specified data set and moves it to the <strong>simulations</strong> directory.</p></li>
+<li><p>Chooses a random image out of the data set and adds in fakes.</p></li>
+<li><p>Runs the data set through the <strong>OASIS Pipeline</strong>.</p></li>
+<li><p>Outputs a catalog of all fakes and whether or not they were detected.</p></li>
+<li><p>Simulation is repeated with a different set of fakes.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>location</strong> (<em>str</em>) – Path of data file tree (contains the <strong>configs</strong>, <strong>data</strong>, <strong>psf</strong>, <strong>residuals</strong>, <strong>sources</strong>, <strong>templates</strong> directories). Use a comma-separated list for mapping to multiple datasets.</p></li>
+<li><p><strong>n_fakes</strong><strong> (</strong><strong>default=20</strong><strong>)</strong> (<em>int</em>) – Number of fakes added to the chosen image.</p></li>
+<li><p><strong>iterations</strong><strong> (</strong><strong>default=50</strong><strong>)</strong> (<em>int</em>) – Number of iterations the simulation goes through. The total number of fakes added is then <span class="math notranslate nohighlight">\(n\_fakes \cdot iterations\)</span>. It is reccommended to choose <em>n_fakes</em> and <em>iterations</em> such that the total number of fakes is high, at least a few hundred, ideally more than 1000.</p></li>
+<li><p><strong>input_mode</strong> (<em>str</em>) – <p>How to interpret fake’s flux parameter.</p>
+<ul>
+<li><p><em>flux</em> (default): Fake’s brightness is assumed to be total flux of the fake in ADU and is determined by <em>f_min</em> and <em>f_max</em> parameters.</p></li>
+<li><p><em>mag</em>: Fake’s brightness is given in magnitudes instead of ADU flux. <em>f_min</em> and <em>f_max</em> are then assumed to be apparent magnitudes rather than ADU counts.</p></li>
+</ul>
+</p></li>
+<li><p><strong>PSF</strong> (<em>str</em>) – <p>Type of PSF model used for fake construction. See documentation for details.</p>
+<ul>
+<li><p><em>moffat</em> (default): Fakes are convolved with a 2D Moffat kernel.</p></li>
+<li><p><em>gaussian</em>: Fakes are convolved with a symmetric 2D Gaussian kernel.</p></li>
+</ul>
+</p></li>
+<li><p><strong>subtract_method</strong><strong> (</strong><strong>default='ois'</strong><strong>)</strong> (<em>str</em>) – Subtraction method used, can be either <em>ois</em> or <em>hotpants</em>, default is <em>ois</em>. See <code class="docutils literal notranslate"><span class="pre">subtract</span></code> method’s documentation for details.</p></li>
+<li><p><strong>f_min</strong><strong> (</strong><strong>default=0</strong><strong>)</strong> (<em>float</em>) – Minimum flux for fakes. Assumed to either be given in ADU counts or apparent magnitudes depending on <em>input_mode</em>.</p></li>
+<li><p><strong>f_max</strong><strong> (</strong><strong>default=40000</strong><strong>)</strong> (<em>float</em>) – Maximum flux for fakes. Assumed to either be given in ADU counts or apparent magnitudes depending on <em>input_mode</em>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Catalog of all fakes, the image they were added to, iteration, and whether or not they were detected. See documentation for details.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="OasisPy.simulation.sim_sameField">
+<code class="sig-prename descclassname">OasisPy.simulation.</code><code class="sig-name descname">sim_sameField</code><span class="sig-paren">(</span><em class="sig-param">location</em>, <em class="sig-param">numIms=100</em>, <em class="sig-param">bkg_mag=22.5</em>, <em class="sig-param">fwhm_min=3</em>, <em class="sig-param">fwhm_max=6</em>, <em class="sig-param">rot_min=-2.5</em>, <em class="sig-param">rot_max=2.5</em>, <em class="sig-param">shift_min=-2</em>, <em class="sig-param">shift_max=2</em>, <em class="sig-param">scale_mult=(0</em>, <em class="sig-param">1.5)</em>, <em class="sig-param">scale_add=(-20</em>, <em class="sig-param">50)</em>, <em class="sig-param">zero_point=25</em>, <em class="sig-param">mode='gauss'</em><span class="sig-paren">)</span><a class="headerlink" href="#OasisPy.simulation.sim_sameField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test <strong>OASIS</strong>’s ability to handle frame-by-frame variations in astronomical data and filter out false-positive sources. The procedure of the simulation is as follows:</p>
+<ol class="arabic simple">
+<li><p>Copies a random science image from the specified dataset to the <strong>simulations</strong> directory.</p></li>
+<li><p>A source catalog of the chosen science image is made, containing information on each source’s centroid location and total flux.</p></li>
+<li><p>Using this source catalog, simulations of the chosen science image are made, all with constant source flux and location, but with different backgrounds, seeing, and pointing.</p></li>
+<li><p>The set of simulated images are sent through the <strong>OASIS Pipeline</strong>.</p></li>
+<li><p>Low numbers of detected sources signifies a successful simulation. There are no variable objects in the simulated images, so ideally zero sources should be detected by <strong>OASIS</strong>.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>location</strong> (<em>str</em>) – Path of data file tree (contains the <strong>configs</strong>, <strong>data</strong>, <strong>psf</strong>, <strong>residuals</strong>, <strong>sources</strong>, <strong>templates</strong> directories). Use a comma-separated list for mapping to multiple datasets.</p></li>
+<li><p><strong>mode</strong><strong> (</strong><strong>default='moffat'</strong><strong>)</strong> (<em>str</em>) – <p>Simulation mode. Method by which simulated images are made. All images are given a uniform background, then smeared according to Poisson statistics.</p>
+<ul>
+<li><p><em>moffat</em> (default): Sources are convolved with a 2D Moffat kernel.</p></li>
+<li><p><em>gauss</em>: Sources are convolved with a symmetric 2D Gaussian kernel.</p></li>
+<li><p><em>real</em>: The actual PSF model of the chosen science image is used as the convolution kernel.</p></li>
+<li><p><em>sky</em>: AstrOmatic program <code class="docutils literal notranslate"><span class="pre">SkyMaker</span></code> (Bertin) is used to make simulated images.</p></li>
+</ul>
+</p></li>
+<li><p><strong>numIms</strong><strong> (</strong><strong>default=100</strong><strong>)</strong> (<em>int</em>) – Number of simulated images to make.</p></li>
+<li><p><strong>bkg_mag</strong><strong> (</strong><strong>default=22.5</strong><strong>)</strong> (<em>float</em>) – Average background level in mags. Actual simulated background levels are chosen to be a random value within the interval <span class="math notranslate nohighlight">\([bkg\_mag-1.5, bkg\_mag+1.5]\)</span>.</p></li>
+<li><p><strong>fwhm_min</strong><strong> (</strong><strong>default=3</strong><strong>)</strong> (<em>float</em>) – Minimum FWHM of simulated images in pixels.</p></li>
+<li><p><strong>fwhm_max</strong><strong> (</strong><strong>default=6</strong><strong>)</strong> (<em>float</em>) – Maximum FWHM of simulated images in pixels.</p></li>
+<li><p><strong>rot_min</strong><strong> (</strong><strong>default=-2.5</strong><strong>)</strong> (<em>float</em>) – Lower bound on angle of rotation in degrees.</p></li>
+<li><p><strong>rot_max</strong><strong> (</strong><strong>default=2.5</strong><strong>)</strong> (<em>float</em>) – Upper bound on angle of rotation in degrees.</p></li>
+<li><p><strong>shift_min</strong><strong> (</strong><strong>default=-2</strong><strong>)</strong> (<em>float</em>) – Lower bound on (X,Y) shift in pixels.</p></li>
+<li><p><strong>shift_max</strong><strong> (</strong><strong>default=2</strong><strong>)</strong> (<em>float</em>) – Upper bound on (X,Y) shift in pixels.</p></li>
+<li><p><strong>scale_mult</strong><strong> (</strong><strong>default=</strong><strong>(</strong><strong>0</strong><strong>,</strong><strong>1.5</strong><strong>)</strong><strong>)</strong> (<em>tuple</em>) – Interval of acceptable multiplicative scale factors.</p></li>
+<li><p><strong>scale_add</strong><strong> (</strong><strong>default=</strong><strong>(</strong><strong>-20</strong><strong>,</strong><strong>50</strong><strong>)</strong><strong>)</strong> (<em>tuple</em>) – Interval of acceptable additive scale factors.</p></li>
+<li><p><strong>zero_point</strong><strong> (</strong><strong>default=25</strong><strong>)</strong> (<em>float</em>) – Zero point magnitude.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Standard <strong>OASIS Pipeline</strong> output, residual frames located in <strong>residuals</strong> and source catalogs located in <strong>sources</strong>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="OasisPy.simulation.SIM">
+<code class="sig-prename descclassname">OasisPy.simulation.</code><code class="sig-name descname">SIM</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#OasisPy.simulation.SIM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Master simulation function. Allows users to choose simulation type and supply all other simulation parameters.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="OasisPy.test.TEST">
+<code class="sig-prename descclassname">OasisPy.test.</code><code class="sig-name descname">TEST</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#OasisPy.test.TEST" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests the installation of <strong>OasisPy</strong> by downloading a set of images from an online public archive, adding fake sources to one of the images, and running the dataset through the <strong>OASIS Pipeline</strong>.
+If the fake sources are recovered, the test is a success. The images used are 26 second exposures of exoplanet WASP-50b taken with telescopes at the Las Cumbres Observatory.
+Results of the test are compared to control results located in <strong>OasisPy</strong>’s source code directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Prints either ‘TEST SUCCESSFUL!’ or ‘Test failure: Results do not match controls’.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="OasisPy.montage.MOSAIC">
+<code class="sig-prename descclassname">OasisPy.montage.</code><code class="sig-name descname">MOSAIC</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#OasisPy.montage.MOSAIC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interfaces with MontagePy to build a mosaic from a set of input images. All parameters are supplied through terminal prompts. See documentation for details.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="troubleshooting.html" class="btn btn-neutral float-left" title="Troubleshooting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Andrew Stewart
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

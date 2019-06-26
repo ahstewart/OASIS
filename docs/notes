@@ -1,0 +1,16 @@
+update theory for new fit method, extract negative image addition
+
+
+CONFIGURATIONS
+aperture_radius for mask_sources_image
+spread_model_min
+spread_model_max
+MR_method
+
+
+IMPROVEMENTS
+filtering out bright star residuals
+better master residual stacking emthod
+hotpants instead of ISIS?
+better optimization, based on actual image information
+improve default values aesthetics for parameters
