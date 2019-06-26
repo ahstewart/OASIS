@@ -16,7 +16,7 @@ Getting Started
 * ``subtract``- Subtracts the template from each image in the data set to create a set of residual frames. This is the most complex and computationally expensive step, and will take the longest to execute.
 * ``mr``- Stands for **m**\ aster **r**\ esidual. The residual images created with ``subtract`` are stacked to for a master residual frame.
 * ``extract``- Searches the residual images for sources of significant flux. Filters out non point source-like objects and other false positives. Outputs a complete source catalog with all detected variable objects, their position, and their total flux.
-* ``test``- Tests the installation of **OasisPy** by fetching a set of images of exoplanet WASP-50b and running them through the **OASIS Pipeline**.
+* ``test``- Tests the installation of **OasisPy** by fetching a set of images of exoplanet HAT-P-37b and running them through the **OASIS Pipeline**.
 * ``simulation``- Allows further testing of the **OASIS Pipeline** through two different simulated data sets.
 * ``run``- Master method that facilitates access to all other methods.
 * ``pipeline``- The **OASIS Pipeline**, an all-in-one method that executes the entire difference imaging process, from ``get`` to ``extract``.

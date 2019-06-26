@@ -187,4 +187,7 @@ The actual mosaic code is nothing more than a simple Python script written to fa
 Testing
 ^^^^^^^
 
-To test the installation **OasisPy** includes a ``test`` method. This code downloads publically available data from the Las Cumbres Observatory's Science Archive, runs it through the **OASIS Pipeline**, then compares the obtained results with a set of control results. The object currently used to conduct the test is exoplanet WASP 150b. A total of 30 images are downloaded, and to illustrate **OASIS**'s ability to find transient objects three fake sources are added to image *someimagename*. Looking at this image's residual or the data set's master residual should show these fake sources clearly. If successful the program will print out "TEST SUCCESSFUL!" at the conclusion of the test. Below is the control master residual used for comparison. Clearly visible are the three fake sources.
+To test the installation **OasisPy** includes a ``test`` method. This code downloads publically available data from the Las Cumbres Observatory's Science Archive, runs it through the **OASIS Pipeline**, then compares the obtained results with a set of control results. The object currently used to conduct the test is exoplanet HAT-P-37b. A total of 30 images are downloaded, and to illustrate **OASIS**'s ability to find transient objects three fake sources are added to image *02:59:10.860_A_.fits*. Looking at this image's residual or the data set's master residual should show these fake sources clearly. If successful the program will print out "TEST SUCCESSFUL!" at the conclusion of the test. Below is the control residual used for comparison. Clearly visible are the three fake sources.
+
+.. figure:: ./TEST_hatp37b_fakes_residual.jpeg
+    :align: center
