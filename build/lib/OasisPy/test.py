@@ -30,7 +30,7 @@ import glob
 
 def TEST():
     '''Tests the installation of **OasisPy** by downloading a set of images from an online public archive, adding fake sources to one of the images, and running the dataset through the **OASIS Pipeline**.
-    If the fake sources are recovered, the test is a success. The images used are 26 second exposures of exoplanet WASP-50b taken with telescopes at the Las Cumbres Observatory.
+    If the fake sources are recovered, the test is a success. The images used are 118 second exposures of exoplanet HAT-P-37b taken with telescopes at the Las Cumbres Observatory.
     Results of the test are compared to control results located in **OasisPy**'s source code directory.
     
     :returns: Prints either 'TEST SUCCESSFUL!' or 'Test failure: Results do not match controls'.

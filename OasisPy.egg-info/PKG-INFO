@@ -1,12 +1,14 @@
 Metadata-Version: 2.1
 Name: OasisPy
-Version: 1.0.3
+Version: 1.0.4
 Summary: Difference Imaging Engine for Optical SETI Applications
 Home-page: https://github.com/ahstewart/OASIS
 Author: Andrew Stewart
 Author-email: ah.stewart@outlook.com
 License: UNKNOWN
-Description: # **OasisPy**-- Difference Imaging Engine for Optical SETI Applications
+Description: [![Documentation Status](https://readthedocs.org/projects/oasispy/badge/?version=latest)](https://oasispy.readthedocs.io/en/latest/?badge=latest)
+        
+        # **OasisPy**-- Difference Imaging Engine for Optical SETI Applications
         
         See documentation [here](https://oasispy.readthedocs.io/en/latest/?).
 Platform: UNKNOWN
