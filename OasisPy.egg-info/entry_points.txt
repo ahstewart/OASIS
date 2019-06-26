@@ -1,0 +1,15 @@
+[console_scripts]
+oasis-align = OasisPy.align:ALIGN
+oasis-combine = OasisPy.combine:COMBINE
+oasis-extract = OasisPy.extract:EXTRACT
+oasis-get = OasisPy.get:GET
+oasis-initialize = OasisPy.initialize:INITIALIZE
+oasis-mask = OasisPy.mask:MASK
+oasis-mr = OasisPy.MR:MR
+oasis-pipeline = OasisPy.pipeline:PIPELINE
+oasis-psf = OasisPy.psf:PSF
+oasis-run = OasisPy.run:RUN
+oasis-simulate = OasisPy.simulation:SIM
+oasis-subtract = OasisPy.subtract:SUBTRACT
+oasis-test = OasisPy.test:TEST
+

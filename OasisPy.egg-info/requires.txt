@@ -1,9 +1,6 @@
 astropy
 numpy
-glob
 datetime
-os
-shutil
 tabulate
 scipy
 requests
@@ -12,6 +9,4 @@ tqdm
 astroscrappy
 astroalign
 image_registration
-zipfile
-gzip
 photutils

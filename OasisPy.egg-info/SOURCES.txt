@@ -37,5 +37,6 @@ OasisPy/test.py
 OasisPy.egg-info/PKG-INFO
 OasisPy.egg-info/SOURCES.txt
 OasisPy.egg-info/dependency_links.txt
+OasisPy.egg-info/entry_points.txt
 OasisPy.egg-info/requires.txt
 OasisPy.egg-info/top_level.txt
