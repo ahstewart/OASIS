@@ -1,0 +1,14 @@
+IM_DIR       /home/andrew/sdi/targets/m31_s24/00:41:22.410_+41:14:46.29/air/10/data
+MRJ_DIR       /home/andrew/sdi_pipeline/sdi_pipeline/AIS/package
+REFERENCE       /home/andrew/sdi/targets/m31_s24/00:41:22.410_+41:14:46.29/air/10/data/03:39:55.680_ref_A_.fits
+REF_SUB       ref.fits      Reference image for subtraction
+INFILE       /home/andrew/sdi/targets/m31_s24/00:41:22.410_+41:14:46.29/air/10/configs/dates.txt
+VARIABLES     phot.data     coordinates of objects for which we want to make light curves
+DEGREE          1           The degree of the polynomial astrometric transform between frames 
+CONFIG_DIR       /home/andrew/sdi/targets/m31_s24/00:41:22.410_+41:14:46.29/air/10/configs
+SIG_THRESH      2.0
+COSMIC_THRESH   1000.0
+REF_STACK       test0.fits
+N_REJECT        2
+MESH_SMOOTH     1
+OUTPUT       /home/andrew/sdi/targets/m31_s24/00:41:22.410_+41:14:46.29/air/10/residuals/var.fits

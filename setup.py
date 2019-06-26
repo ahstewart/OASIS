@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 from distutils.core import setup
 from setuptools.command.install import install
 import os
@@ -6,42 +9,47 @@ import sys
 class PostInstallCommand(install):
     """Post-installation for installation mode."""
     def run(self):
-        loc = input("\n-> Location to build OASIS file tree? (default=cwd) ")
-        if loc == '':
-            loc = os.getcwd()
-        if os.path.exists(loc) == True:
-            if os.path.exists(loc + "/OASIS") == False:
-                os.system("mkdir %s/OASIS" % (loc))
-                os.system("mkdir %s/OASIS/targets" % (loc))
-                os.system("mkdir %s/OASIS/temp" % (loc))
-                os.system("mkdir %s/OASIS/archive" % (loc))
-                os.system("mkdir %s/OASIS/config" % (loc))
-                os.system("mkdir %s/OASIS/simulations" % (loc))
-                os.system("mkdir %s/OASIS/archive/data" % (loc))
-                os.system("mkdir %s/OASIS/archive/templates" % (loc))
-                os.system("mkdir %s/OASIS/archive/residuals" % (loc))
-                print("-> OASIS file system created in %s\n" % (loc))
+        setup_check = input("\n-> Setup OASIS environment now? (recommended) [y]/n: ")
+        if setup_check == '':
+            setup_check = 'y'
+        if setup_check == 'y':
+            loc = input("\n-> Location to build OASIS file tree? (default=cwd) ")
+            if loc == '':
+                loc = os.getcwd()
+            if os.path.exists(loc) == True:
+                if os.path.exists(loc + "/OASIS") == False:
+                    os.system("mkdir %s/OASIS" % (loc))
+                    os.system("mkdir %s/OASIS/targets" % (loc))
+                    os.system("mkdir %s/OASIS/temp" % (loc))
+                    os.system("mkdir %s/OASIS/archive" % (loc))
+                    os.system("mkdir %s/OASIS/config" % (loc))
+                    os.system("mkdir %s/OASIS/simulations" % (loc))
+                    os.system("mkdir %s/OASIS/archive/data" % (loc))
+                    os.system("mkdir %s/OASIS/archive/templates" % (loc))
+                    os.system("mkdir %s/OASIS/archive/residuals" % (loc))
+                    print("-> OASIS file system created in %s\n" % (loc))
+                else:
+                    print("-> OASIS architecure already exists on this computer")
+                ais_run = os.path.dirname(os.path.realpath(__file__)) + '/OasisPy/AIS/package/./install.csh'
+                os.system(ais_run)
+                with open(os.path.dirname(os.path.realpath(__file__)) + '/OasisPy/config/OASIS.config', 'a') as conf:
+                    conf.write("\nloc \t %s \t # location of OASIS file tree. DO NOT CHANGE." % loc)
+                os.system("cp %s/OasisPy/config/OASIS.config %s/OASIS/config" % (os.path.dirname(os.path.realpath(__file__)), loc))
             else:
-                print("-> OASIS architecure already exists on this computer")
-            ais_run = os.path.dirname(__file__) + '/OASIS/AIS/package/./install.csh'
-            os.system(ais_run)
-            with open(os.path.dirname(__file__) + '/OASIS/config/OASIS.config', 'a') as conf:
-                conf.write("loc \t %s \t # location of OASIS file tree. DO NOT CHANGE." % loc)
-            os.system("cp %s/config/OASIS.config %s/OASIS/config" % (os.path.dirname(make_stars.__file__), loc))
-        else:
-            print("-> Error: Location does not exist\n-> Exiting...\n")
-            sys.exit()
+                print("-> Error: Location does not exist\n-> Exiting...\n")
+                sys.exit()
         install.run(self)
 
-with open("README", "r") as fh:
+with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(name='OasisPy',
-      version='1.0',
+      version='1.0.2',
       description='Difference Imaging Engine for Optical SETI Applications',
       long_description=long_description,
+      long_description_content_type='text/markdown',
       author='Andrew Stewart',
-      url='https://github.com/andrewhstewart/OasisPy.git',
+      url='https://github.com/ahstewart/OASIS',
       author_email='ah.stewart@outlook.com',
       packages=['OasisPy'],
       package_dir={'OasisPy': 'OasisPy'},
@@ -51,25 +59,14 @@ setup(name='OasisPy',
       install_requires=[
           'astropy',
           'numpy',
-          'glob',
-          'copy',
-          'sys',
           'datetime',
-          'os',
-          'shutil',
           'tabulate',
           'scipy',
           'requests',
-          'time',
           'MontagePy',
           'tqdm',
-          'math',
           'astroscrappy',
           'astroalign',
           'image_registration',
-          'operator',
-          'calendar',
-          'zipfile',
-          'gzip',
           'photutils']
       )
