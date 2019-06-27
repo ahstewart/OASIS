@@ -36,7 +36,7 @@ Features
 * **Photometric Alignment** -- Linearly rescales each image's intensity scale to match that of the reference image. 
 * **Stacking** -- Performs a weighted coaddition of the input images to construct a deep, high *S/N* template image for use in the image subtraction step.
 * **Background Matching** -- Matches the background of the input images to the template image, using an image subtraction method that works well for extended objects with complicated backgrounds.
-* **Image Subtraction** -- Computes a PSF-matching convolution kernel to convolve with the template image, then subtracts the template from the input image. Uses the Optimal Image Subtraction (OIS) algorithm from Christophe Alard ([paper](http://www2.iap.fr/users/alard/package.html)).
+* **Image Subtraction** -- Computes a PSF-matching convolution kernel to convolve with the template image, then subtracts the template from the input image. Uses the Optimal Image Subtraction (OIS) algorithm from Christophe Alard (`paper` <http://www2.iap.fr/users/alard/package.html>`_).
 * **Parameter Optimization** -- Iterates over a range of OIS parameter configurations looking for the one that yields the best residual image. If a residual fails to meet a certain quality threshold for all parameter configurations, it is masked. Allows for a more robust subtraction that guarantees all residuals in the dataset will be of optimal quality.
 * **Source Extraction** -- Uses the AstrOmatic program ``SExtractor`` to extract variable objects from residual frames.
 * **Source Filtering** -- Filters out subtraction artifacts and other phony variable sources.
