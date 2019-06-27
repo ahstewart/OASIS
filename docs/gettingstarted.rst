@@ -7,7 +7,7 @@ Getting Started
 
 **OasisPy** is a collection of python modules that facilitate the OASIS difference imaging process. Each module is in charge of one step in the process. There are a total of 13 modules, and each can either be called individually or in succession, depending on the project at hand. We call these modules "\ **OASIS** methods."
 
-* ``initialize``- Sets up the **OASIS** environment. Is automatically run during install and will likely never have to be run again unless you want to duplicate or move the **OASIS** file tree.
+* ``initialize``- Sets up the **OASIS** environment. Is automatically run during install and will never have to be run again unless you want to duplicate or move the **OASIS** file tree.
 * ``get``- Downloads images from an online archive or finds images on the local hardrive and moves them into the **OASIS** file tree to be processed.
 * ``mask``- Masks cosmic rays, saturated stars, CCD defects, and any other artifacts that will inhibit the difference imaging process.
 * ``psf``- Computes a PSF model for each image in the data set. This model will be used in many of the subsequent steps.
@@ -21,7 +21,7 @@ Getting Started
 * ``run``- Master method that facilitates access to all other methods.
 * ``pipeline``- The **OASIS Pipeline**, an all-in-one method that executes the entire difference imaging process, from ``get`` to ``extract``.
 
-For more information on each method and how OasisPy works see :doc:`howitworks`.
+For more information on each method and how **OasisPy** works see :doc:`howitworks`.
 
 
 Using **OasisPy**
@@ -78,4 +78,4 @@ in your terminal. A list of all possible **OASIS** methods is displayed, and fro
 
 Pipeline
 ^^^^^^^^
-The ``pipeline`` convenience function makes up what is called the '\ **OASIS Pipeline** \.' This is simply a conglomerate of every **OASIS** method into a single master method. Input data are fed into each method one-by-one and then piped to the next. Using ``pipeline``, a user can send a set of images through the entire difference imaging process with a single high-level command, without worrying about what is actually being done in the intermediary steps. To execute it, type ``oasis-pipeline`` in the terminal or select 'pipeline' if using ``run``.
+The ``pipeline`` convenience function makes up what is called the **OASIS Pipeline**. This is simply a conglomerate of every **OASIS** method into a single master method. Input data are fed into each method one-by-one and then piped to the next. Using ``pipeline``, a user can send a set of images through the entire difference imaging process with a single high-level command, without worrying about what is actually being done in the intermediary steps. To execute it, type ``oasis-pipeline`` in the terminal or select 'pipeline' if using ``run``.

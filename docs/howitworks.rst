@@ -3,11 +3,11 @@ How It Works
 
 Here we describe the inner-workings of the **OASIS** engine.
 
-.. note:: This section is dedicated to showing the algorithms and theory behind **OASIS**. For a thorough step-by-step introduction to using **OasisPy** to process real images, see *this Jupyter notebook*.
+.. note:: This section is dedicated to showing the algorithms and theory behind **OASIS**. For a thorough step-by-step introduction to using **OasisPy** to process real images, see *this Jupyter notebook (TBW)*.
 
 
-Overviw of the Software
------------------------
+Overview of the Software
+------------------------
 
 **OASIS** Environment
 ^^^^^^^^^^^^^^^^^^^^^
