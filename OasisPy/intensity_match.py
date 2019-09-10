@@ -22,8 +22,8 @@ def int_match_to_ref(location, nx=100, ny=100, use_config_file=True):
     if os.path.exists(linmatch_loc) == False:
         os.system('touch %s' % (linmatch_loc))
     if use_config_file == True:
-        nx = initialize.get_config_value('int_match_nx')
-        ny = initialize.get_config_value('int_match_ny')
+        nx = initialize.get_config_value('int_match_nx', file_loc=location+'/configs')
+        ny = initialize.get_config_value('int_match_ny', file_loc=location+'/configs')
     for i in images:
         if i != ref_im[0]:
             try:

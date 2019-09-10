@@ -15,7 +15,7 @@ from tqdm import tqdm
 def satMask(location):
     print("\n-> Building mask of saturated stars...")
     masks = []
-    images = glob.glob("%s/data/*_N_.fits" % (location))
+    images = glob.glob("%s/data/*.fits" % (location))
     for i in images:
         hdu = fits.open(i, mode='update')
         try:
@@ -52,7 +52,7 @@ def sat_test(image):
     astroscrappy.update_mask(np.asarray(data_sat), np.asarray(emptyMask), sat, True)
     return bpm, emptyMask, sat
     
-def cosmic(image, objLim=5.0, mask_ext=2, gain_key='GAIN', readnoise_key='RDNOISE',
+def cosmic(image, objLim=5.0, mask_ext=1, gain_key='GAIN', readnoise_key='RDNOISE',
            sat_key='SATURATE', lin_key='MAXLIN'):
     hdu = fits.open(image, mode='update')
     hdr = hdu[0].header
@@ -122,5 +122,8 @@ def MASK(path):
         
 if __name__ == '__main__':
     path = input("-> Enter path to exposure time directory: ")
-    MASK(path)
+    maskExt = input("-> HDU extension of mask (default=1): ")
+    if maskExt == '':
+        maskExt = 1
+    MASK(path, mask_ext=int(maskExt))
     

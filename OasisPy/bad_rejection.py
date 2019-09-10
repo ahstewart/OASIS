@@ -22,8 +22,8 @@ def get_SNR(location, reject_sigma=1000, reject_SNR=80, use_config_file=True):
     SNRs = []
     bad_images = []
     if use_config_file == True:
-        reject_SNR = get_config_value('reject_SNR')
-        reject_sigma = get_config_value('reject_sigma')
+        reject_SNR = get_config_value('reject_SNR', file_loc=location[:-5]+'/configs')
+        reject_sigma = get_config_value('reject_sigma', file_loc=location[:-5]+'/configs')
     for i in images:
         hdu = fits.open(i)
         data = hdu[0].data

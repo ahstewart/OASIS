@@ -44,7 +44,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(name='OasisPy',
-      version='1.0.4',
+      version='1.0.5',
       description='Difference Imaging Engine for Optical SETI Applications',
       long_description=long_description,
       long_description_content_type='text/markdown',
@@ -82,5 +82,6 @@ setup(name='OasisPy',
           'astroscrappy',
           'astroalign',
           'image_registration',
-          'photutils']
+          'photutils',
+          'pytest']
       )

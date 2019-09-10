@@ -23,82 +23,103 @@ import os
 import initialize
 import sys
 from tqdm import tqdm
+import filters
 
-def MR_other(location, mode='sos_abs', sigma_thresh=4, gauss_sigma=3, gauss_filter=False):
+def MR_other(location, mode='phose', sigma_thresh=4, gauss_sigma=3, gauss_filter=False):
     print("\n-> Constructing master residual...")
+    x = 0
     residual_list = []
     masks = []
     median_list = []
     means = []
     residuals = glob.glob("%s/residuals/*_residual_.fits" % (location))
     mResidual = glob.glob("%s/residuals/*MR.fits" % (location))
-    #fill all masked values with zero
-    zeros_mask(location)
-    if len(mResidual) == 0:
-        if len(residuals) != 0:
-            if fits.getval(residuals[0], 'WEIGHT') == 'Y':
-                mask_value = 1
+    if mode == 'phose':
+        residuals = glob.glob("%s/residuals/*_residual_.fits" % (location))
+        template = glob.glob("%s/templates/*.fits" % (location))
+        template = template[0]
+        filters.phose_sex(location)
+        MR_mask = np.ones((fits.getdata(residuals[0])).shape)
+        for r in tqdm(residuals):
+            res_data = filters.phose(r, negative=False)
+            if np.std(res_data) != 0: x += 1
+            if residuals.index(r) == 0:
+                MR = res_data**2
             else:
-                mask_value = 0
-            for r in residuals:
-                hdu = fits.open(r)
-                residual_list.append(hdu[0].data)
-                median_list.append(np.median(hdu[0].data))
-                masks.append(hdu[1].data)
-                hdu.close()
-            master_residual = np.zeros(residual_list[0].shape)
-            master_mask = np.zeros(residual_list[0].shape)
-            for i in tqdm(range(residual_list[0].shape[0])):
-                for j in range(residual_list[0].shape[1]):
-                    pixels = []
-                    for res in range(len(residual_list)):
-                        if masks[res][i,j] == mask_value:
-                            pixels.append(residual_list[res][i,j])
-                    if pixels != []:
-                        if mode == 'sigma_clip':
-                            MR_mask_pixel = mask_value
-                            median = np.median(pixels)
-                            stdev = np.std(pixels)
-                            if np.max(pixels) >= (median + sigma_thresh*stdev):
-                                MR_pixel = np.max(pixels)
-                            elif np.min(pixels) <= (median - sigma_thresh*stdev):
-                                MR_pixel = np.min(pixels) * -1
-                            else:
-                                MR_pixel = np.median(pixels)
-                        elif mode == 'sos_abs':
-                            pixels = np.array(pixels)
-                            MR_pixel = np.sum(pixels*abs(pixels))
-                            MR_mask_pixel = mask_value
-                        elif mode == 'sos':
-                            pixels = np.array(pixels)
-                            MR_pixel = np.sum(pixels*pixels)
-                            MR_mask_pixel = mask_value
-                        else:
-                            print("\n-> Error: Unrecognized mode\n-> Please use either 'sos', 'sos_abs', or 'sigma_clip'\n-> Exiting...")
-                            sys.exit()
-                    else:
-                        MR_pixel = np.median(median_list)
-                        MR_mask_pixel = (mask_value-1)*-1
-                    master_residual[i,j] = MR_pixel
-                    master_mask[i,j] = MR_mask_pixel                    
-            template = glob.glob("%s/templates/*.fits" % (location))
-            if len(template) == 1:
-                temp_hdu = fits.open(template[0])
-                temp_header = temp_hdu[0].header
-                temp_hdu.close()
-                if gauss_filter == True:
-                    master_residual = gaussian_filter(master_residual, gauss_sigma)
-                hduData = fits.PrimaryHDU(master_residual, header=temp_header)
-                hduMask = fits.ImageHDU(master_mask)
-                hduList = fits.HDUList([hduData, hduMask])
-                hduList.writeto("%s/residuals/MR.fits" % (location), overwrite=True)
-            else:
-                print("-> Error: Problem with number of template images, couldn't complete master residual construction")
-    elif len(mResidual) == 1:
-        print("-> Master residual already exists...")
+                MR += res_data**2
+        if x != 0: MR /= x
+        hdu = fits.PrimaryHDU(MR, header=fits.getheader(template))
+        hdu_mask = fits.ImageHDU(MR_mask)
+        hdu_list = fits.HDUList([hdu, hdu_mask])
+        hdu_list.writeto("%s/residuals/MR.fits" % (location), overwrite=True)
     else:
-        print("-> Error: Problem with number of master residuals")
-    return means
+        #fill all masked values with zero
+        zeros_mask(location)
+        if len(mResidual) == 0:
+            if len(residuals) != 0:
+                if fits.getval(residuals[0], 'WEIGHT') == 'Y':
+                    mask_value = 1
+                else:
+                    mask_value = 0
+                for r in residuals:
+                    hdu = fits.open(r)
+                    residual_list.append(hdu[0].data)
+                    median_list.append(np.median(hdu[0].data))
+                    masks.append(hdu[1].data)
+                    hdu.close()
+                master_residual = np.zeros(residual_list[0].shape)
+                master_mask = np.zeros(residual_list[0].shape)
+                for i in tqdm(range(residual_list[0].shape[0])):
+                    for j in range(residual_list[0].shape[1]):
+                        pixels = []
+                        for res in range(len(residual_list)):
+                            if masks[res][i,j] == mask_value:
+                                pixels.append(residual_list[res][i,j])
+                        if pixels != []:
+                            if mode == 'sigma_clip':
+                                MR_mask_pixel = mask_value
+                                median = np.median(pixels)
+                                stdev = np.std(pixels)
+                                if np.max(pixels) >= (median + sigma_thresh*stdev):
+                                    MR_pixel = np.max(pixels)
+                                elif np.min(pixels) <= (median - sigma_thresh*stdev):
+                                    MR_pixel = np.min(pixels) * -1
+                                else:
+                                    MR_pixel = np.median(pixels)
+                            elif mode == 'sos_abs':
+                                pixels = np.array(pixels)
+                                MR_pixel = np.sum(pixels*abs(pixels))
+                                MR_mask_pixel = mask_value
+                            elif mode == 'sos':
+                                pixels = np.array(pixels)
+                                MR_pixel = np.sum(pixels*pixels)
+                                MR_mask_pixel = mask_value
+                            else:
+                                print("\n-> Error: Unrecognized mode\n-> Please use either 'sos', 'sos_abs', or 'sigma_clip'\n-> Exiting...")
+                                sys.exit()
+                        else:
+                            MR_pixel = np.median(median_list)
+                            MR_mask_pixel = (mask_value-1)*-1
+                        master_residual[i,j] = MR_pixel
+                        master_mask[i,j] = MR_mask_pixel                    
+                template = glob.glob("%s/templates/*.fits" % (location))
+                if len(template) == 1:
+                    temp_hdu = fits.open(template[0])
+                    temp_header = temp_hdu[0].header
+                    temp_hdu.close()
+                    if gauss_filter == True:
+                        master_residual = gaussian_filter(master_residual, gauss_sigma)
+                    hduData = fits.PrimaryHDU(master_residual, header=temp_header)
+                    hduMask = fits.ImageHDU(master_mask)
+                    hduList = fits.HDUList([hduData, hduMask])
+                    hduList.writeto("%s/residuals/MR.fits" % (location), overwrite=True)
+                else:
+                    print("-> Error: Problem with number of template images, couldn't complete master residual construction")
+        elif len(mResidual) == 1:
+            print("-> Master residual already exists...")
+        else:
+            print("-> Error: Problem with number of master residuals")
+        return means
         
 def MR_swarp(location):
     print("\n-> Constructing master residual...\n")
@@ -182,7 +203,24 @@ def MR_swarp(location):
             except:
                 print("-> Error: Master residual construction failed\n")
     else:
-        print("-> Error: Problem with number of residuals\n")        
+        print("-> Error: Problem with number of residuals\n")     
+        
+def MR_new(location):
+    residuals = glob.glob("%s/residuals/*_residual_.fits" % (location))
+    template = glob.glob("%s/templates/*.fits" % (location))
+    template = template[0]
+    filters.phose_sex(location)
+    MR_mask = np.ones((fits.getdata(residuals[0])).shape)
+    for r in tqdm(residuals):
+        res_data = filters.phose(r, negative=False)
+        if residuals.index(r) == 0:
+            MR = res_data**2
+        else:
+            MR += res_data**2
+    hdu = fits.PrimaryHDU(MR, header=fits.getheader(template))
+    hdu_mask = fits.ImageHDU(MR_mask)
+    hdu_list = fits.HDUList([hdu, hdu_mask])
+    hdu_list.writeto("%s/residuals/MR.fits" % (location), overwrite=True)
         
 def normalize(res):
     location = '/'.join(res.split('/')[:-2])
@@ -199,9 +237,10 @@ def normalize(res):
     except: template_median = np.median(np.ma.MaskedArray(fits.getdata(template), mask=np.logical_not(fits.getdata(template, 1))))
     res_noise = np.sqrt(im_median + template_median)
     norm_res_data = (res_data-(im_median-template_median))/res_noise
-    norm_hdu = fits.PrimaryHDU(norm_res_data.data, header=fits.getheader(res))
+    norm_hdu = fits.PrimaryHDU(res_data.data, header=fits.getheader(res))
     norm_mask = fits.ImageHDU(fits.getdata(res, 1))
-    norm_list = fits.HDUList([norm_hdu, norm_mask])
+    norm_norm = fits.ImageHDU(norm_res_data.data)
+    norm_list = fits.HDUList([norm_hdu, norm_mask, norm_norm])
     norm_list.writeto(res, overwrite=True)
     
 def zeros_mask(location):
@@ -226,13 +265,14 @@ def zeros_mask(location):
         hdu_list = fits.HDUList([hdu_data, hdu_mask])
         hdu_list.writeto(r, overwrite=True)
     
-def MR(path, method='swarp', sig_thresh=4, gauss_sig=3, gauss_filt=False, use_config_file=True):
+def MR(path, method='phose', sig_thresh=4, gauss_sig=3, gauss_filt=False, use_config_file=True):
     '''Stacks residual frames into a *master residual*. Extremely useful for identifying faint variables and quick object detection, but should be used with caution. See documentation for details.
     
     :param str path: Path of data file tree (contains the **configs**, **data**, **psf**, **residuals**, **sources**, **templates** directories). Use a comma-separated list for mapping to multiple datasets.
     :param str method: Stacking method. 
     
-        * *swarp* (default): Uses ``SWarp`` (Bertin) to stack the residuals according to the weighted average of the pixels.
+        * *phose* (default): **Pho**tometric **S**ource **E**limination. Recommended stacking algorithm, optimally preserves variable flux. Uses a sum of squares combination.
+        * *swarp*: Uses ``SWarp`` (Bertin) to stack the residuals according to the weighted average of the pixels.
         * *sos*: Sum of squares, pixel-wise.
         * *sos_abs*: Absolute sum of squares, pixel-wise. Preserves sign. Mathematically, this look like :math:`\Sigma(p_i * |p_i|)` with :math:`p_i` being the :math:`ith` pixel. For example, a series of pixels [10, 2, -3, -6] would be stacked according to 100 + 4 + -9 + -36.
         * *sigma_clip*: Takes the median of each pixel, unless there exists a pixel above or below a certain number of sigmas, in which case this outlying pixel is taken to be the stacked value.
@@ -249,8 +289,8 @@ def MR(path, method='swarp', sig_thresh=4, gauss_sig=3, gauss_filt=False, use_co
     del path
     for path in paths:
         if use_config_file == True:
-            method = initialize.get_config_value('MR_method')
-        if method == 'sos' or method == 'sos_abs' or method == 'sigma_clip':
+            method = initialize.get_config_value('MR_method',file_loc=path+'/configs')
+        if method == 'phose' or method == 'sos' or method == 'sos_abs' or method == 'sigma_clip':
             MR_other(path, mode=method, sigma_thresh=sig_thresh, gauss_sigma=gauss_sig, gauss_filter=gauss_filt)
         elif method == 'swarp':
             MR_swarp(path)
@@ -260,4 +300,4 @@ def MR(path, method='swarp', sig_thresh=4, gauss_sig=3, gauss_filt=False, use_co
 if __name__ == '__main__':
     path = input("\n-> Enter path to exposure time directory: ")
     MR_method = input("-> Master residual construction method (swarp/sos/sos_abs/sigma_clip): ")
-    MR(path, method=MR_method)
+    MR(path, method=MR_method, use_config_file=False)

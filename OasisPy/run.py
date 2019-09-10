@@ -43,17 +43,21 @@ def RUN():
         combine.COMBINE(path)
     elif method == 'subtract':
         path = input("-> Enter path to exposure time directory: ")
+        sub_method = input("-> Choose subtraction method-- hotpants (default) or ois: ")
         import subtract
-        subtract.SUBTRACT(path)
+        subtract.SUBTRACT(path, method=sub_method, use_config_file=False)
     elif method == 'mr':
         path = input("-> Enter path to exposure time directory: ")
+        MR_method = input("-> Master residual construction method ([phose]/swarp/sos/sos_abs/sigma_clip): ")
+        if MR_method == '':
+            MR_method = 'phose'
         import MR
-        MR.MR(path)
+        MR.MR(path, method=MR_method)
     elif method == 'extract':
         import extract
         path = input("-> Enter path to exposure time directory: ")
         extract_method = input("\n-> Extract method (both/indiv/MR): ")
-        extract.EXTRACT(path, method=extract_method)
+        extract.EXTRACT(path, method=extract_method, use_config_file=False)
     elif method == 'pipeline':
         import pipeline
         path = input("-> Enter path to exposure time directory: ")

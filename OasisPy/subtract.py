@@ -12,7 +12,6 @@ import optimize
 import psf
 import glob
 import sys
-import MR
 from initialize import get_config_value
 
 def SUBTRACT(path, method='ois', use_config_file=True):
@@ -24,8 +23,8 @@ def SUBTRACT(path, method='ois', use_config_file=True):
     :param str method: Method of difference imaging.
     :param bool use_config_file: If ``True`` all input parameters are fetched from the local *OASIS.config* file.
     
-        * *ois* (default): Optimal Image Subtraction. Christohpe Alard's ``ISIS`` package.
-        * *hotpants*: Andrew Becker's ``hotpants`` program. Very similar to Alard's OIS, but differs in input parameters. May be useful to try if OIS is returning inadequate results. 
+        * *ois*: Optimal Image Subtraction. Christohpe Alard's ``ISIS`` package.
+        * *hotpants* (default): Andrew Becker's ``hotpants`` program. Very similar to Alard's OIS, but differs in input parameters. May be useful to try if OIS is returning inadequate results. 
     
     :returns: All science images are differenced and the corresponding residuals are placed in the **residuals** directory with the *_residual_* suffix.
     
@@ -34,26 +33,24 @@ def SUBTRACT(path, method='ois', use_config_file=True):
     del path
     for path in paths:
         if use_config_file == True:
-            method = get_config_value('sub_method')
+            method = get_config_value('sub_method', file_loc=path+'/configs')
         images = glob.glob(path + '/data/*.fits')
         psf_data = glob.glob(path + '/psf/*')
         if len(psf_data) != 2*(len(images)+1):
             psf.PSF(path)
         else:
             print("\n-> PSFs already exist...")
-        if method == '' or method == 'ois':
+        if method == 'ois':
             subtract_ais.isis_sub(path)
-            optimize.perform_optimization(path)
-            MR.MR_swarp(path)
-        elif sub_method == 'hotpants':
+            optimize.perform_optimization(path, opt_method='ois')
+        elif method == '' or method == 'hotpants':
             subtract_hotpants.hotpants(path)
-            optimize.perform_optimization(path)
-            MR.MR_swarp(path)
+            optimize.perform_optimization(path, opt_method='hotpants')
         else:
             print("\n-> Error: Unknown method")
             sys.exit()
     
 if __name__ == '__main__':
     path = input("-> Enter path to exposure time directory: ")
-    sub_method = input("-> Choose subtraction method-- ois (default) or hotpants: ")
+    sub_method = input("-> Choose subtraction method-- hotpants (default) or ois: ")
     SUBTRACT(path, method=sub_method)

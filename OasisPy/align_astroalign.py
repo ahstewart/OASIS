@@ -18,7 +18,7 @@ import intensity_match
 from tqdm import tqdm
 
 #align images to reference image using astroalign package
-def align2(location, method='standard'):
+def align2(location, mask_ext=2, method='standard'):
     x = 1
     y = 0
     images = glob.glob(location + "/*_N_.fits")
@@ -37,7 +37,12 @@ def align2(location, method='standard'):
                 data1 = hdu1[0].data
                 data1 = np.array(data1, dtype="float64")
                 hdr1 = hdu1[0].header
-                mask1 = (hdu1[1].data).astype(bool)
+                try: mask1 = (hdu1[mask_ext].data).astype(bool)
+                except:
+                    try: mask1 = (hdu1[1].data).astype(bool)
+                    except: 
+                        print("Can't find input science mask, assuming none exists...")
+                        mask1 = np.zeros(data1.shape)
                 data1 = np.ma.array(data1, mask=mask1)
                 try:
                     try:

@@ -20,21 +20,19 @@ def initialize(loc):
         os.system("mkdir %s/OASIS/targets" % (loc))
         os.system("mkdir %s/OASIS/temp" % (loc))
         os.system("mkdir %s/OASIS/archive" % (loc))
-        os.system("mkdir %s/OASIS/config" % (loc))
         os.system("mkdir %s/OASIS/simulations" % (loc))
         os.system("mkdir %s/OASIS/archive/data" % (loc))
         os.system("mkdir %s/OASIS/archive/templates" % (loc))
         os.system("mkdir %s/OASIS/archive/residuals" % (loc))
-        os.system("cp %s/config/OASIS.config %s/OASIS/config" % (os.path.dirname(make_stars.__file__), loc))
         print("-> OASIS file system created in %s\n" % (loc))
     else:
         print("-> OASIS architecure already exists on this computer")
 
 def create(location):
     '''
-    creates a data, template, and residual directory
+    creates a data, template, psf, sources, and residual directory
     '''
-    dirs = ["data", "templates", "residuals", "sources", "psf"]
+    dirs = ["data", "templates", "residuals", "sources", "psf", "sources"]
     for d in dirs: 
         if os.path.exists("%s/%s" % (location, d)) == False:
             os.system("mkdir %s/%s" % (location, d))
@@ -52,22 +50,58 @@ def get_loc():
     config_loc = os.path.dirname(make_stars.__file__) + '/config/OASIS.config'
     with open(config_loc, 'r') as conf:
         lines = conf.readlines()
+    check = False
     for l in lines:
         if l.split()[0] == 'loc':
             return l.split()[1]
+            check = True
             break
+    if check == False:
+        print("\n-> Error: OASIS.config file missing 'loc' keyword")
 
-def get_config_value(keyword, config_file='OASIS.config'):
-    config_loc = get_loc() + '/OASIS/config'
-    with open("%s/%s" % (config_loc, config_file), 'r') as conf:
-        lines = conf.readlines()
-    for l in lines:
-        if l.split()[0] == keyword:
-            value = l.split()[1]
-            try: value = float(value)
-            except: pass
-            return value
-            break
+def get_config_value(keyword, config_file='OASIS.config', file_loc=get_loc()):
+    if file_loc == get_loc():
+        config_loc = file_loc + '/OASIS/config'
+    else:
+        config_loc = file_loc
+    try:
+        with open("%s/%s" % (config_loc, config_file), 'r') as conf:
+            lines = conf.readlines()
+        for l in lines:
+            if l.split()[0] == keyword:
+                value = l.split()[1]
+                try: value = float(value)
+                except: 
+                    if value in ['True', 'true', 'T', 't']:
+                        value = True
+                    elif value in ['False', 'false', 'F', 'f']:
+                        value = False
+                return value
+                break
+        print("-> Error: Can't find %s keyword in OASIS.config file\n-> Check the configs directory and add the requested keyword to OASIS.config\n-> Exiting..." % (keyword))
+        sys.exit()
+    except FileNotFoundError:
+            create_configs(file_loc[:-8])
+            try:
+                with open("%s/%s" % (config_loc, config_file), 'r') as conf:
+                    lines = conf.readlines()
+                for l in lines:
+                    if l.split()[0] == keyword:
+                        value = l.split()[1]
+                        try: value = float(value)
+                        except: 
+                            if value in ['True', 'true', 'T', 't']:
+                                value = True
+                            elif value in ['False', 'false', 'F', 'f']:
+                                value = False
+                        return value
+                        break
+            except:
+                print("\n-> Error with OASIS.config\n-> Check to make sure there is a configuration file in the exposure time directory\n-> Exiting...")
+            sys.exit()
+    else:
+        print("-> Error: Problem with OASIS.config\n-> Check file for empty lines or invalid keywords\n-> Exiting...")
+        sys.exit()
         
 #get OASIS file tree location from OASIS.config file
 loc = get_loc()

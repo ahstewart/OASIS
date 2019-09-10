@@ -14,11 +14,17 @@ import sys
 import psf
 import datetime
 import initialize
+import os
+import sex
+from tqdm import tqdm
+import math
+from scipy.stats import skellam
+import sep
 
-def get_sources(image, filtered=True, MR=False):
+def get_sources(image, filtered=True, MR=False, phose=False):
     '''
     gets all the point sources and fluxes deteced with SExtractor on a certain residual image
-    the format of the outputted data is 
+    the format of the outputted data is
     first column: flux
     second: x pixel position 
     third: y pixel position
@@ -28,20 +34,28 @@ def get_sources(image, filtered=True, MR=False):
     length = (len(image_name)+6)*-1
     location = image[:length]
     filt_source = location + "/sources/filtered_sources.txt"
-    if filtered == False:
-        filt_source = location + "/sources/sources.txt"
-    if MR == True and filtered == False:
-        location = image.split('/')[:-1]
-        location = '/'.join(location)
-        location = location[:-9]
-        filt_source = location + "sources/MR_sources.txt"
-        image_name_res = image.split('/')[-1]
-    if MR == True and filtered == True:
-        location = image.split('/')[:-1]
-        location = '/'.join(location)
-        location = location[:-9]
-        filt_source = location + "sources/MR_sources_filtered.txt"
-        image_name_res = image.split('/')[-1]
+    if phose == True:
+        filt_source = "%s/data/phose_sources.txt" % (location)
+        temp_source = "%s/templates/phose_template.cat" % (location)
+        image_name_res = image_name
+    elif phose == False:
+        if filtered == False:
+            filt_source = location + "/sources/sources.txt"
+        if MR == True and filtered == False:
+            location = image.split('/')[:-1]
+            location = '/'.join(location)
+            location = location[:-9]
+            filt_source = location + "sources/MR_sources.txt"
+            image_name_res = image.split('/')[-1]
+        if MR == True and filtered == True:
+            location = image.split('/')[:-1]
+            location = '/'.join(location)
+            location = location[:-9]
+            filt_source = location + "sources/MR_sources_filtered.txt"
+            image_name_res = image.split('/')[-1]
+    else:
+        print("-> Error: 'phose' keyword must be boolean\n-> Exiting...")
+        sys.exit()
     data = []
     inds = []
     with open(filt_source, 'r') as filt:
@@ -50,7 +64,7 @@ def get_sources(image, filtered=True, MR=False):
     for s in sources:
         if s == (image_name_res+'\n'):
             check = True
-            x = sources.index(s) + 5
+            x = sources.index(s)
             while check == True:
                 x += 1
                 try:
@@ -58,13 +72,39 @@ def get_sources(image, filtered=True, MR=False):
                     data.append(sources[x].split())
                     inds.append(x)
                 except:
-                    check = False
+                    try: sources[x].split()[0]
+                    except: check = False
             break
     for d in range(len(data)):
-        data[d] = data[d][1:-1]
+        if phose == True:
+            data[d] = data[d][1:]
+        else:
+            data[d] = data[d][1:-1]
         for i in range(len(data[d])):
             data[d][i] = float(data[d][i])
-    return data, inds
+    if phose == True:
+        temp_data = []
+        with open(temp_source, 'r') as temp:
+            templines = temp.readlines()
+        for t in templines:
+            check = True
+            x2 = templines.index(t)
+            while check == True:
+                x2 += 1
+                try:
+                    float(templines[x2].split()[0])
+                    temp_data.append(templines[x2].split())
+                except:
+                    try: templines[x2].split()[0]
+                    except: check = False
+            break
+        for td in range(len(temp_data)):
+            temp_data[td] = temp_data[td][1:]
+            for i in range(len(temp_data[td])):
+                temp_data[td][i] = float(temp_data[td][i])
+        return data, temp_data
+    else:
+        return data, inds
 
 def get_all_sources(location, filt=True):
     images = glob.glob(location + '/data/*.fits')
@@ -142,7 +182,7 @@ def write_total_sources(location):
         
 def reoccuring(location, pix_dist=1.5, use_config_file=True):
     if use_config_file == True:
-        pix_dist = initialize.get_config_value('pix_dist')
+        pix_dist = initialize.get_config_value('pix_dist', file_loc=location+'/configs')
     sources,indices = get_all_sources(location)
     for i in range(len(sources)):
         new_sources,new_indices = get_all_sources(location)
@@ -224,8 +264,8 @@ def spread_model_filter(location, spread_model_min=-0.025, spread_model_max=0.1,
         lines = src.readlines()
         src.close()
     if use_config_file == True:
-        spread_model_min = initialize.get_config_value('spread_model_min')
-        spread_model_max = initialize.get_config_value('spread_model_max')
+        spread_model_min = initialize.get_config_value('spread_model_min', file_loc=location+'/configs')
+        spread_model_max = initialize.get_config_value('spread_model_max', file_loc=location+'/configs')
     for lin in lines:
         parse = lin.split()
         if parse != []:
@@ -242,7 +282,9 @@ def spread_model_filter(location, spread_model_min=-0.025, spread_model_max=0.1,
         
 def mask_sources_image(res_image, aperture_diam=1.5, use_config_file=True):
     if use_config_file == True:
-        aperture_diam = initialize.get_config_value('aperture_diam')
+        location = res_image.split('/')[:-2]
+        location = '/'.join(location)
+        aperture_diam = initialize.get_config_value('aperture_diam', file_loc=location+'/configs')
     res_data = fits.getdata(res_image)
     res_mask = fits.getdata(res_image, 1)
     weight_check = False
@@ -279,3 +321,219 @@ def mask_source(x_dim, y_dim, centroid, radius, method='disk'):
 
 def stamp(data, x, y, x_width, y_width):
     return data[y-y_width:y+y_width+1, x-x_width:x+x_width+1]
+            
+def phose_sex(location):
+    """
+    create source catalogs for each science image using SExtractor, combine them
+    into a master catalog called 'phose_sources.txt' in the data directory
+    
+    also creates a template catalog used for phose thresholding
+    """
+    
+    initialize.create_configs(location)
+    try: os.mkdir("%s/data/cats" % (location))
+    except: pass
+    images = glob.glob("%s/data/*.fits" % (location))
+    config = "%s/configs/phose_default.sex" % (location)
+    param = "%s/configs/phose_default.param" % (location)
+    for i in tqdm(images):
+        output_cat = i.replace('data', 'data/cats')
+        output_cat = output_cat.replace('fits', 'txt')
+        with open(config, 'r') as conf:
+            conf_lines = conf.readlines()
+        conf_lines[9] = "PARAMETERS_NAME" + "        " + param + "\n"
+        conf_lines[32] = "WEIGHT_IMAGE" + "        " + "%s[1]" % (i) + "\n"
+        with open(config, 'w') as conf:
+            conf.writelines(conf_lines)
+        os.system("sextractor %s[0] > %s -c %s" % (i, output_cat, config))
+    sex.src_join(location, phose=True)
+    template = glob.glob("%s/templates/*.fits" % (location))
+    if template == []:
+        print("-> Error: template not found\n-> Run combine.py first\n-> Exiting...")
+        sys.exit()
+    template = template[0]
+    output_template_cat = "%s/templates/phose_template.cat" % (location)
+    with open(config, 'r') as conf:
+        conf_lines = conf.readlines()
+    conf_lines[9] = "PARAMETERS_NAME" + "        " + param + "\n"
+    conf_lines[32] = "WEIGHT_IMAGE" + "        " + "%s[1]" % (template) + "\n"
+    with open(config, 'w') as conf:
+        conf.writelines(conf_lines)
+    os.system("sextractor %s[0] > %s -c %s" % (template, output_template_cat, config))
+    
+def phose(image, dpixel=1, thresh=3.5, kron_min=0.01, fill_method='gauss', negative=False, fit='moffat'):
+    data_image = image.replace('residual_', '')
+    data_image = data_image.replace('residuals', 'data')
+    res_data = fits.getdata(image)
+    if negative == True:
+        res_data *= -1
+    res_mask = fits.getdata(image, 1)
+    try: weight_check = fits.getval(image, 'WEIGHT')
+    except: weight_check = 'N'
+    if weight_check == 'Y':
+        res_mask = (res_mask-1)*-1
+    location = image.split('/')[:-2]
+    location = '/'.join(location)
+    template = glob.glob("%s/templates/*.fits" % (location))[0]
+    try: template_median = float(fits.getval(template, 'MEDIAN'))
+    except: template_median = np.median(fits.getdata(template))
+    try: science_median = float(fits.getval(data_image, 'MEDIAN'))
+    except: science_median = np.median(fits.getdata(data_image))
+    res_data_sep = res_data.byteswap().newbyteorder()
+    try: res_bkg = sep.Background(res_data_sep, mask=res_mask)
+    except ValueError: res_bkg = res_bkg = sep.Background(res_data, mask=res_mask)
+    res_rms = res_bkg.globalrms
+    res_back = res_bkg.globalback
+    if fill_method == 'gauss':
+        fill_bkg = np.random.normal(loc=res_bkg.globalback, scale=res_bkg.globalrms, size=res_data.shape)
+    elif fill_method == 'skellam':
+        fill_bkg = skellam.rvs(float(science_median), float(template_median), size=(res_data.shape))
+        fill_bkg = fill_bkg.astype(np.float64)
+    else:
+        print("-> Error: Invalid value for 'fill_method' keyword\n-> Exiting...")
+        sys.exit()
+    FWHM = psf.fwhm(data_image)
+    sigma = FWHM/2.355
+    if fit == 'moffat':
+        fit_param = moffat_fwhm_to_a(FWHM)
+    elif fit == 'gauss':
+        fit_param = FWHM/2.355
+    else:
+        print("-> Error: Invalid value for 'fit' parameter\n-> Exiting...")
+        sys.exit()
+    unfiltered_sources, temp_sources = get_sources(data_image, filtered=False, phose=True)
+    filtered_sources, filtered_inds = get_sources(data_image, filtered=True)
+    bad_mask = np.zeros(res_data.shape)
+    good_mask = np.zeros(res_data.shape)
+    for s in unfiltered_sources:
+        og_flux = s[0]
+        x = s[2]
+        y = s[3]
+        kron_radius = s[1]
+        a_image = s[4]
+        b_image = s[5]
+        min_flux = (np.pi*np.mean((kron_radius*a_image, kron_radius*b_image))**2) * res_back
+        if (og_flux < min_flux) or (kron_radius == 0):
+            continue
+        theta_image = s[6]
+        if kron_radius < kron_min:
+            indices = [0]
+        else:
+            indices = [v[1] for i, v in enumerate(temp_sources) if (v[2]-dpixel<=x<=v[2]+dpixel and v[3]-dpixel<=y<=v[3]+dpixel)
+                        and phose_check(res_data, x, y, kron_radius, a_image, b_image, theta_image, thresh, og_flux, v[0])]
+#        phoseCheck = phose_check(res_data, x, y, kron_radius, a_image, b_image, theta_image, thresh, og_flux, og_flux)
+#        if phoseCheck == True or (s not in filtered_sources):
+        if indices != []:
+            if np.mean(indices) > kron_radius:
+                kron_radius = np.mean(indices)
+            kron_radius *= 1.5
+            size_check = aperture_resize(res_rms, fit_param, sigma, og_flux, kron_radius, x, y, a_image, b_image, dist=fit)
+            while size_check == True:
+                kron_radius *= 1.5
+                size_check = aperture_resize(res_back, fit_param, sigma, og_flux, kron_radius, x, y, a_image, b_image, dist=fit)
+            ellipse_mask(bad_mask, (y-1), (x-1), kron_radius, a_image, b_image, theta_image, fill_value=1)
+        else:
+            ellipse_mask(good_mask, (y-1), (x-1), kron_radius, a_image, b_image, theta_image, fill_value=1)
+#            res_data = phose_fill(res_data, phose_check(res_data, x, y, kron_radius, a_image, b_image, theta_image, mask_return=True), fill_bkg)
+#        for t in temp_sources:
+#            t_flux = t[0]
+#            t_x = t[2]
+#            t_y = t[3]
+#            if (t_x-dpixel<=x<=t_x+dpixel) and (t_y-dpixel<=y<=t_y+dpixel):
+#                temp_mask = np.ones(res_data.shape)
+#                ellipse_mask(temp_mask, (y-1), (x-1), kron_radius, a_image, b_image, theta_image, fill_value=0)
+#                res_data_phot = np.ma.MaskedArray(res_data, mask=temp_mask, fill_value=0)
+#                s_flux = np.sum(res_data_phot.filled())
+#                if s_flux < (thresh * np.sqrt(og_flux + t_flux)):
+#                    temp_mask_fill = (temp_mask - 1) * -1
+#                    res_data_final = np.ma.MaskedArray(res_data, mask = temp_mask_fill, fill_value=0)
+#                    res_data_final = res_data_final.filled()
+#                    phose_patch = np.multiply(temp_mask_fill, fill_bkg)
+#                    res_data = res_data_final + phose_patch
+#                    del temp_mask, res_data_phot, temp_mask_fill, res_data_final
+#    bad_hdu = fits.PrimaryHDU(bad_mask.astype(np.float64))
+#    good_hdu = fits.PrimaryHDU(good_mask.astype(np.float64))
+#    bad_hdu.writeto("%s/%s_bad.fits" % (location, (image.split('/'))[-1]))
+#    good_hdu.writeto("%s/%s_good.fits" % (location, (image.split('/'))[-1]))
+    and_mask = np.logical_and(bad_mask, good_mask)
+    bad_mask -= and_mask
+    bad_mask = np.logical_or(bad_mask, res_mask)
+    res_data = phose_fill(res_data, bad_mask, fill_bkg)
+#    res_hdu = fits.PrimaryHDU(res_data)
+#    res_hdu.writeto("%s/%s_res.fits" % (location, (image.split('/'))[-1]))
+#    bad_hdu = fits.PrimaryHDU(bad_mask.astype(np.float64))
+#    bad_hdu.writeto("%s/%s.fits" % (location, (image.split('/'))[-1]))
+    return (res_data-(science_median-template_median))/np.sqrt(science_median + template_median)
+
+def phose_check(res_data, x, y, kron, a, b, theta, thresh=0, og_flux=0, t_flux=0, mask_return=False):
+    temp_mask = np.ones(res_data.shape)
+    ellipse_mask(temp_mask, (y-1), (x-1), kron, a, b, theta, fill_value=0)
+    res_data_phot = np.ma.MaskedArray(res_data, mask=temp_mask, fill_value=0)
+    s_flux = np.sum(res_data_phot.filled())
+    del res_data_phot
+    if mask_return == False:
+        if abs(s_flux) < (thresh * np.sqrt(abs(og_flux + t_flux))):
+            return True
+        else:
+            return False
+    else:
+        return temp_mask
+
+def phose_fill(res_data, temp_mask, bkg):
+    res_data_final = np.ma.MaskedArray(res_data, mask=temp_mask, fill_value=0)
+    res_data_final = res_data_final.filled()
+    phose_patch = np.multiply(temp_mask, bkg)
+    res_data = res_data_final + phose_patch
+    del temp_mask, res_data_final
+    return res_data
+
+def ellipse_mask(array, x_centroid, y_centroid, kron_radius, a, b, theta, fill_value=1):
+    X = array.shape[0]
+    Y = array.shape[1]
+    theta = math.radians(theta-90)
+    a = a * kron_radius
+    b = b * kron_radius
+    if a != 0 and b != 0:
+        x,y = np.ogrid[-x_centroid:X-x_centroid, -y_centroid:Y-y_centroid]
+        mask = ((x*np.cos(theta)+y*np.sin(theta))**2/a**2) + ((x*np.sin(theta)-y*np.cos(theta))**2/b**2) < 1
+        array[mask] = fill_value 
+        return mask
+    else:
+        pass
+
+def aperture_resize(bkg, param, sigma, flux, kron_r, x, y, a, b, dist='moffat'):
+    amplitude = get_gaussian_amplitude(flux, sigma)
+    mean_radius = np.mean((kron_r*a, kron_r*b))
+    if dist == 'moffat':
+        check = abs(moffat(mean_radius, amplitude, param)) > abs(bkg)
+    elif dist == 'gauss':
+        check = abs(gauss(mean_radius, amplitude, param)) > abs(bkg)
+    else:
+        print("-> Error: Invalid value for 'dist' parameter\n-> Exiting...")
+        sys.exit()
+    if check == True:
+        return True
+    else:
+        return False
+    
+def gauss(x, amplitude, sigma, mean=0):
+    return (amplitude * (np.exp(-((x-mean)**2)/(2*(sigma**2)))))
+
+def moffat(x, amplitude, a, b=4.765):
+    return amplitude * (1 + (x/a)**2)**(-b)
+
+def moffat_fwhm_to_a(fwhm, b=4.765):
+    return fwhm / (2 * np.sqrt(2**(1/b) - 1))    
+
+def get_gaussian_amplitude(flux, sigma):
+    return (flux / (2 * np.pi * (sigma**2)))
+
+def check(flux1, flux2):
+    res = abs(flux1 - flux2)
+    poiss1 = np.sqrt(flux1 + flux2)
+    poiss2 = np.sqrt(flux1 * 2)
+    print(res, poiss1, poiss2)
+    if res > poiss1:
+        print("passes test 1")
+    if res > poiss2:
+        print("passes test 2")

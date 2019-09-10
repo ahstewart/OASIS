@@ -25,17 +25,17 @@ def sextractor_MR(location, MR_method='swarp', use_config_file=True):
     if check_MR == []:
         print("-> Master residual does not exist, creating it first...")
         if use_config_file == True:
-            MR_method = initialize.get_config_value('MR_method')
+            MR_method = initialize.get_config_value('MR_method', file_loc=location+'/configs')
         MR.MR(location, MR_method)
     master_res = glob.glob("%s/residuals/MR.fits" % (location))
     temp = glob.glob("%s/templates/*.fits" % (location))
     if len(master_res) == 1:
         if len(temp) == 1:
-            MR = master_res[0]
+            MR_image = master_res[0]
             template = temp[0]
             temp_name = template.split('/')[-1]
             temp_name = temp_name[:-5]
-            MR_hdu = fits.open(MR)
+            MR_hdu = fits.open(MR_image)
             MR_header = MR_hdu[0].header
             saturate = MR_header['SATURATE']
             temp_hdr = fits.getheader(template)
@@ -59,17 +59,11 @@ def sextractor_MR(location, MR_method='swarp', use_config_file=True):
             data[62] = "SEEING_FWHM" + "        " + str(FWHM) + "\n"
             data[106] = "PSF_NAME" + "        " + location + "/psf/" + temp_name + ".psf" + "\n"
             data[58] = "PIXEL_SCALE" + "        " + str(pixscale) + "\n"
-            data[32] = "WEIGHT_IMAGE" + "        " + "%s[1]" % (MR) + "\n"
+            data[32] = "WEIGHT_IMAGE" + "        " + "%s[1]" % (MR_image) + "\n"
             with open(config_loc, 'w') as config:
                 config.writelines(data)
                 config.close()
-            os.system("sextractor %s[0]> %s/sources/MR_sources.txt -c %s" % (MR, location, config_loc))
-            temp_hdu_data = fits.PrimaryHDU((fits.getdata(MR))*-1, header=fits.getheader(MR))
-            temp_hdu_mask = fits.ImageHDU(fits.getdata(MR, 1))
-            temp_hdu_list = fits.HDUList([temp_hdu_data, temp_hdu_mask])
-            temp_hdu_list.writeto("%s/residuals/MR_neg.fits" % (location))
-            os.system("sextractor %s/residuals/MR_neg.fits[0]> %s/sources/MR_sources_2.txt -c %s" % (location, location, config_loc))
-            append_negative_sources(MR, MR=True)
+            os.system("sextractor %s > %s/sources/MR_sources.txt -c %s" % (MR_image, location, config_loc))
             MR_filter_sources(location)
         else:
             print("-> Error: Problem with number of template images\n-> Could not finish SExtracting master residual")
@@ -80,7 +74,6 @@ def sextractor(location):
     '''
     runs SExtractor on all residual images
     '''
-    x = 0
     sources = location + "/sources"
     residuals = location + "/residuals"
     check = os.path.exists(sources)
@@ -131,37 +124,39 @@ def sextractor(location):
             fits.setval(r, 'NORM', value='Y')
             MR.normalize(r)
     print("\n-> SExtracting residual images...")
-    for i in images:
-        name = i[length:-5]
-        data_name = location + '/data/' + name.replace('residual_','') + '.fits'
-        FWHM = psf.fwhm(data_name)
-        im_hdu = fits.open(data_name)
-        im_header = im_hdu[0].header
-        saturate = im_header['SATURATE']
-        pixscale = im_header['PIXSCALE']
-        im_hdu.close()
-        with open(config_loc, 'r') as config:
-            data = config.readlines()
-            config.close()
-        data[51] = "SATUR_LEVEL" + "        " + str(saturate) + "\n"
-        data[62] = "SEEING_FWHM" + "        " + str(FWHM) + "\n"
-        data[106] = "PSF_NAME" + "        " + location + "/psf/" + name[:-9] + ".psf" + "\n"
-        data[58] = "PIXEL_SCALE" + "        " + str(pixscale) + "\n"
-        data[32] = "WEIGHT_IMAGE" + "        " + "%s[1]" % (i) + "\n"
-        with open(config_loc, 'w') as config:
-            config.writelines(data)
-            config.close()
-        os.system("sextractor %s[0]> %s/temp/%s.txt -c %s" % (i, sources, name, config_loc))
-        temp_hdu_data = fits.PrimaryHDU((fits.getdata(i))*-1, header=fits.getheader(i))
-        temp_hdu_mask = fits.ImageHDU(fits.getdata(i, 1))
-        temp_hdu_list = fits.HDUList([temp_hdu_data, temp_hdu_mask])
-        temp_hdu_list.writeto("%s/residuals/temp.fits" % (location))
-        os.system("sextractor %s/residuals/temp.fits[0]> %s/temp/%s_2.txt -c %s" % (location, sources, name, config_loc))
-        append_negative_sources(i)
-        os.remove("%s/residuals/temp.fits" % (location))
-        x += 1
-        per = float(x)/float(len(images)) * 100
-        print("\t %.1f%% sextracted..." % (per))
+    for i in tqdm(images):
+        if np.std(fits.getdata(i)) != 0:
+            name = i[length:-5]
+            data_name = location + '/data/' + name.replace('residual_','') + '.fits'
+            FWHM = psf.fwhm(data_name)
+            im_hdu = fits.open(data_name)
+            im_header = im_hdu[0].header
+            saturate = im_header['SATURATE']
+            pixscale = im_header['PIXSCALE']
+            im_hdu.close()
+            with open(config_loc, 'r') as config:
+                data = config.readlines()
+                config.close()
+            data[51] = "SATUR_LEVEL" + "        " + str(saturate) + "\n"
+            data[62] = "SEEING_FWHM" + "        " + str(FWHM) + "\n"
+            data[106] = "PSF_NAME" + "        " + location + "/psf/" + name[:-9] + ".psf" + "\n"
+            data[58] = "PIXEL_SCALE" + "        " + str(pixscale) + "\n"
+            data[32] = "WEIGHT_IMAGE" + "        " + "%s[1]" % (i) + "\n"
+            with open(config_loc, 'w') as config:
+                config.writelines(data)
+                config.close()
+            os.system("sextractor %s[0]> %s/temp/%s.txt -c %s" % (i, sources, name, config_loc))
+            temp_hdu_data = fits.PrimaryHDU((fits.getdata(i))*-1, header=fits.getheader(i))
+            temp_hdu_mask = fits.ImageHDU(fits.getdata(i, 1))
+            temp_hdu_list = fits.HDUList([temp_hdu_data, temp_hdu_mask])
+            temp_hdu_list.writeto("%s/residuals/temp.fits" % (location))
+            os.system("sextractor %s/residuals/temp.fits[0]> %s/temp/%s_2.txt -c %s" % (location, sources, name, config_loc))
+            append_negative_sources(i)
+            os.remove("%s/residuals/temp.fits" % (location))
+        else:
+            name = i[length:-5]
+            with open("%s/temp/%s.txt" % (sources, name), 'w') as bad_res_cat:
+                bad_res_cat.write("# Bad residual, did not SExtract\n")
     print("-> SExtracted %d images, catalogues placed in 'sources' directory\n" % (len(images)))
     print("-> Filtering source catalogs...\n")
     src_join(location)
@@ -244,7 +239,7 @@ def sextractor_psf(location):
         config.close()
     print("\n-> Creating PSF catalogs...")
     if len(temps) == 1:
-        for i in images:
+        for i in tqdm(images):
             name = i.split('/')[-1][:-5]
             hdu = fits.open(i)
             hdr = hdu[0].header
@@ -259,9 +254,9 @@ def sextractor_psf(location):
                 config.writelines(data)
                 config.close()
             os.system("sextractor %s[0] -c %s" % (i, config_loc))
-            x += 1
-            per = float(x)/float(len(images)) * 100
-            print("\t %.1f%% sextracted..." % (per))
+#            x += 1
+#            per = float(x)/float(len(images)) * 100
+#            print("\t %.1f%% sextracted..." % (per))
         print("-> SExtracted %d images, catalogues placed in 'psf' directory\n" % (len(images)))
     else:
         print("\n-> Error: Problem with number of template images\n")
@@ -304,17 +299,27 @@ def weight_map(image):
     hdu.close()
     return weightMap
 
-def src_join(location):
-    source_loc = location + '/sources'
-    temp_source_loc = source_loc + '/temp'
-    temp_source_files = glob.glob(temp_source_loc + '/*.txt')
+def src_join(location, phose=False):
+    if phose == False:
+        source_loc = location + '/sources'
+        temp_source_loc = source_loc + '/temp'
+        temp_source_files = glob.glob(temp_source_loc + '/*.txt')
+        joined_src_name = 'sources.txt'
+    elif phose == True:
+        source_loc = location + '/data'
+        temp_source_loc = source_loc + '/cats'
+        temp_source_files = glob.glob(temp_source_loc + '/*.txt')
+        joined_src_name = 'phose_sources.txt'
+    else:
+        print("-> Error: 'phose' keyword must be boolean\n-> Exiting...")
+        sys.exit()
     image_names = filters.get_image_names(location)
     for file in temp_source_files:
         with open(file, 'r') as fl:
             data = fl.readlines()
         data = [str(file.replace('txt','fits')[len(source_loc)+6:]) + '\n'] + data
         data.append("\n\n\n")
-        with open(source_loc + '/sources.txt', 'a+') as s:
+        with open(source_loc + '/%s' % (joined_src_name), 'a+') as s:
             if data[0] not in image_names:
                 s.writelines(data)
         os.remove(file)
@@ -324,11 +329,11 @@ def src_join(location):
         print("-> Error: Problem removing temp directory in '/sources'")
 
 def filter_sources(location, mask_sources=False):
-    print("\n-> Filtering out non PSF-like sources...")
+    print("-> Filtering out non PSF-like sources...")
     filters.spread_model_filter(location)
-    print("-> Filtering out diveted detections...")
+    print("-> Filtering out divoted detections...")
     images = glob.glob(location + '/data/*_A_.fits')
-    for i in images:
+    for i in tqdm(images):
         indices = filters.divot(i)
         filters.update_filtered_sources(location, indices)
     residuals = glob.glob("%s/residuals/*_residual_.fits" % (location))
@@ -344,9 +349,9 @@ def MR_filter_sources(location):
         for line in MR_lines:
             MR_src.write(line)
     MR_loc = "%s/residuals/MR.fits" % (location)
-    print("\n-> Filtering out non PSF-like sources in master residual...")
+    print("-> Filtering out non PSF-like sources in master residual...")
     filters.spread_model_filter(location, MR=True)
-    print("-> Filtering out diveted detections in master residual...")
+    print("-> Filtering out divoted detections in master residual...")
     indices = filters.divot(MR_loc, MR=True)
     filters.update_filtered_sources(location, indices, MR=True)
     filters.write_total_sources(location)

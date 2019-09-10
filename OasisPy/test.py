@@ -16,17 +16,18 @@ import combine_swarp
 from astropy.io import fits
 import numpy as np
 import psf
-import subtract_ais
+#import subtract_ais
 import check_saturation
 import mask
 from make_stars import make_gaussian_im
-import extract
+#import extract
 import shutil
-import MR
-from optimize import perform_optimization
+#import MR
+#from optimize import perform_optimization
 import time
 import filters
 import glob
+import pipeline
 
 def TEST():
     '''Tests the installation of **OasisPy** by downloading a set of images from an online public archive, adding fake sources to one of the images, and running the dataset through the **OASIS Pipeline**.
@@ -37,9 +38,9 @@ def TEST():
     
     '''
     frameNum=30 
-    q_initial=1
-    q_value=0.90 
-    q_min=0.80
+#    q_initial=1
+#    q_value=0.90 
+#    q_min=0.80
     startTime = time.time()
     #look for existing TEST folder and delete it
     og_test = loc + '/OASIS/targets/TEST'
@@ -66,7 +67,10 @@ def TEST():
     
     #download data
     temp_loc = loc + '/OASIS/temp/'
-    os.mkdir(temp_loc+'test_data')
+    try: os.mkdir(temp_loc+'test_data')
+    except FileExistsError:
+        shutil.rmtree(temp_loc+'test_data')
+        os.mkdir(temp_loc+'test_data')
     for frame in frames:
       with open(temp_loc + 'test_data/' + frame['filename'], 'wb') as f:
         f.write(requests.get(frame['url']).content)
@@ -80,10 +84,10 @@ def TEST():
     
     #align and combine images
     test_loc = data_location[:-5]
-    mask.MASK(test_loc)
-    check_saturation.check_saturate(test_loc + '/data')
+#    check_saturation.check_saturate(test_loc + '/data')
     ref_image.ref_image(test_loc + '/data')
     align_astroalign.align2(test_loc + '/data')
+    mask.MASK(test_loc)
     psf.PSF(test_loc)
     combine_swarp.swarp(test_loc + '/data')
     
@@ -121,13 +125,15 @@ def TEST():
     finalList.writeto(test_loc + '/data/%s' % (fake_im), overwrite=True)
     hdu.close()
     
-    #subtract images using ISIS
-    subtract_ais.isis_sub(test_loc)
-    perform_optimization(test_loc, qInitial=q_initial, qValue=q_value, qFloor=q_min, use_config_file=False)
-    MR.MR_swarp(test_loc)
+#    #subtract images using ISIS
+#    subtract_ais.isis_sub(test_loc)
+#    perform_optimization(test_loc, qInitial=q_initial, qValue=q_value, qFloor=q_min, use_config_file=False)
+#    MR.MR_other(test_loc, mode='phose')
+#    
+#    #perform SExtractor on residual images
+#    extract.EXTRACT(test_loc)
     
-    #perform SExtractor on residual images
-    extract.EXTRACT(test_loc)
+    pipeline.PIPELINE(test_loc)
     
     #print TEST runtime
     endTime = time.time()

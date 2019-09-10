@@ -23,8 +23,7 @@ from scipy.ndimage import rotate, shift
 from astropy.convolution import Gaussian2DKernel, Moffat2DKernel
 import pipeline
 import subtract
-
-loc = '/media/andrew/SDI'
+from tqdm import tqdm
 
 def keyboardInterruptHandler(signal, frame):
     print("KeyboardInterrupt (ID: {}) has been caught. Cleaning up...".format(signal))
@@ -104,7 +103,7 @@ def sim_fakes(location, n_fakes=20, iterations=50, input_mode='flux', PSF='moffa
             f_max = mag_to_flux(image, f_max)
         fake_name = image
         #perform simulation for 'iterations' number of loops
-        for i in range(iterations):
+        for i in tqdm(range(iterations)):
             #define blank results slates
             fake_results = []
             MR_results = []
@@ -322,14 +321,14 @@ def copy_to_sim(tar, mode='fakes', image=''):
     try:
         shutil.rmtree("%s/%s" % (sim_path, tar))
         print("-> Deleting any existing simulation data...")
-    except Exception as e:
-        print(e)
+    except:
+        pass
     if mode == 'fakes':
         try:
             print("-> Copying target directory created in simulations directory...")
             shutil.copytree(tar_dir_path + "/" + tar, sim_path + "/" + tar + "_fakes")
-        except Exception as e:
-            print(e)
+        except Exception:
+            pass
     elif mode == 'samefield':
         try:
             if image == '':
@@ -465,12 +464,18 @@ def sim_sameField(location, mode='moffat', numIms=100, bkg_mag=22.5, fwhm_min=3,
     x_pos = []
     y_pos = []
     flux = []
+    sources = {}
     for c in cat_lines:
         splits = c.split()
         if splits[0] != '#':
             flux.append(float(splits[0]))
             x_pos.append(round(float(splits[3])))
             y_pos.append(round(float(splits[4])))
+            sources.update({float(splits[0]) : (round(float(splits[3])), round(float(splits[4])))})
+    flux_ordered = sorted(sources)
+    flux_iter = round(len(flux)*0.99)
+    flux_sim = flux_ordered[flux_iter]
+    xy_sim = sources[flux_sim]
 #if mode is set to use SkyMaker for making the simulations, configure SkyMaker
     if mode == 'sky':
         mags = []
@@ -487,7 +492,7 @@ def sim_sameField(location, mode='moffat', numIms=100, bkg_mag=22.5, fwhm_min=3,
         sky_config = "%s/configs/sky.config" % (sim_loc)
 #start making fake images
     print("\n-> Making simulated images...")
-    for n in range(numIms):
+    for n in tqdm(range(numIms)):
 #define image name
         if n == 0:
             image_name = '%s/data/%d_ref_A_.fits' % (sim_loc, n)
@@ -496,8 +501,6 @@ def sim_sameField(location, mode='moffat', numIms=100, bkg_mag=22.5, fwhm_min=3,
 #for each image: make sources w/ random fwhm b/w (3,6), rotate/zoom, shift, add a different gaussian dist. of noise, change scale linearly, poisson smear
         #define FWHM of simulation
         image_fwhm = ((fwhm_max-fwhm_min) * np.random.random()) + fwhm_min
-        if n == 0:
-            image_fwhm = ref_fwhm
         #based on the mode chosen, create the corresponding convolution kernel and make simulated image
         if mode != 'sky':
             if mode == 'moffat':
@@ -511,13 +514,12 @@ def sim_sameField(location, mode='moffat', numIms=100, bkg_mag=22.5, fwhm_min=3,
             elif mode == 'real':
                 conv_kernel = get_first_model(ref_im)
             try:
-                norm = np.linalg.norm(conv_kernel)
-                if norm != 0: 
-                    conv_kernel /= norm
+                conv_kernel /= np.sum(conv_kernel)
             except:
                 pass
+            flux_variable = np.array(flux) * np.random.random() * 2
             image = make_stars.make_image(ref_data.shape[0], ref_data.shape[1], 
-                                      x_loc=y_pos, y_loc=x_pos, fluxes=flux, psf=[conv_kernel])
+                                      x_loc=y_pos, y_loc=x_pos, fluxes=flux_variable, psf=[conv_kernel])
         #if mode is set to 'sky' use SkyMaker to make simulated image
         elif mode == 'sky':
             bkg_Mag = (1.5*np.random.random()) + bkg_mag
@@ -597,8 +599,9 @@ def sim_sameField(location, mode='moffat', numIms=100, bkg_mag=22.5, fwhm_min=3,
         sim_lists = glob.glob("%s/data/*.list" % (sim_loc))
         for sl in sim_lists:
             os.remove(sl)
-    pipeline.pipeline_run_sim(sim_loc)
-        
+    pipeline.pipeline_run_sim(sim_loc, sim=False)
+    print(flux_iter, flux_sim, xy_sim)
+    
 def SIM():
     '''
     Master simulation function. Allows users to choose simulation type and supply all other simulation parameters.
@@ -624,7 +627,9 @@ def SIM():
         sim_location = sim_location.replace(' ','')
         sim_location = sim_location.split(',')
         num_im = input("-> Number of images to make: ")
-        sim_mode = input("-> Simulation mode (moffat/gauss/real/sky): ")
+        sim_mode = input("-> Simulation mode ([moffat]/gauss/real/sky): ")
+        if sim_mode == "":
+            sim_mode = 'moffat'
         bkg = input("-> Average background in mags (default=22.5): ")
         if bkg == '':
             bkg = 22.5

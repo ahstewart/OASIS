@@ -26,7 +26,7 @@ def swarp(location, template_perc=0.33, use_config_file=True):
     imNum = len(images)
     numImages = 0
     if use_config_file == True:
-        template_perc = initialize.get_config_value('template_perc')
+        template_perc = initialize.get_config_value('template_perc', file_loc=location+'/configs')
     if len(temps) == 1:
         temps_name = temps[0].split('/')[-1]
         numImages = int((temps_name.split('.'))[0].split('_')[-1])
@@ -35,11 +35,15 @@ def swarp(location, template_perc=0.33, use_config_file=True):
         if len(temps) != 0:
             template_name = temps[0].split('/')[-1]
             os.remove(temps[0])
+        #delete existing template PSF info
             try:
                 os.remove("%s/psf/%s.cat" % (location, template_name[:-5]))
                 os.remove("%s/psf/%s.psf" % (location, template_name[:-5]))
             except:
                 pass
+        temp_psfs = glob.glob("%s/psf/*median*" % (location))
+        for t in temp_psfs:
+            os.remove(t)
         #change image shapes to match each the smallest image in the set
         print("\n-> Slicing images to a common FOV...")
         shapes = []
@@ -179,7 +183,11 @@ def swarp(location, template_perc=0.33, use_config_file=True):
             temp_hdu.close()
             temp_hdu = fits.open(template, mode='update')
             (temp_hdu[0].header).set('MEDIAN', str(temp_median))
+            (temp_hdu[0].header).set('WEIGHT', 'Y')
             temp_hdu.close()
+            hotpants_mask = (temp_mask-1)*-1
+            hotpants_hdu = fits.PrimaryHDU(hotpants_mask)
+            hotpants_hdu.writeto("%s/hotpants_mask.fits" % (location), overwrite=True)
         else:
             print("\n-> No default.swarp file in target's config directory\n")
             sys.exit()

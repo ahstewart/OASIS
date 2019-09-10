@@ -15,7 +15,7 @@ import mask
 from initialize import get_config_value
 
 #checks all fits images in a directory for saturation
-def check_saturate(location, max_sat_pix=10, use_config_file=True):
+def check_saturate(location, max_sat_pix=10, mask_ext=2, use_config_file=True):
     print("\n-> Checking images for saturation not found by masking...")
     Max = []
     im = []
@@ -23,7 +23,7 @@ def check_saturate(location, max_sat_pix=10, use_config_file=True):
     y = 0
     images = glob.glob(location + "/*_N_.fits")
     if use_config_file == True:
-        max_sat_pix = get_config_value('max_sat_pix')
+        max_sat_pix = get_config_value('max_sat_pix', file_loc=location[:-5]+'/configs')
     if images != []:
         for i in images:
             hdu = fits.open(i)
@@ -31,7 +31,7 @@ def check_saturate(location, max_sat_pix=10, use_config_file=True):
             lin = hdu[0].header['MAXLIN']
             data = hdu[0].data
             try:
-                MSK = hdu[1].data
+                MSK = hdu[mask_ext].data
             except:
                 hdu.close()
                 name = i.split('/')[-1]
@@ -43,17 +43,17 @@ def check_saturate(location, max_sat_pix=10, use_config_file=True):
                 mask.maskImages(location[:-5])
                 try:
                     hdu = fits.open(i)
-                    MSK = hdu[1].data
+                    MSK = hdu[mask_ext].data
                 except:
                         hdu.close()
                         print('-> Error: Could not generate mask, moving %s to OASIS data archive' 
                               % (name))
                         os.system('mv %s %s/OASIS/archive/data' % (i, loc))
                         continue
-            data = np.ma.array(data, mask=MSK)
+            data = np.ma.MaskedArray(data, mask=MSK)
             if satur > lin:
                 lin = satur
-            sat = ((data>lin)).sum()
+            sat = ((data.data>lin)).sum()
             if sat > max_sat_pix:
                 y += 1
                 im.append(i)
